@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "commUNIty",
-    "slug": "commUNIty",
+    "name": "ReactNativeTest",
+    "slug": "ReactNativeTest",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
