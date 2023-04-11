@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Pressable, TextInput, StyleSheet, Text, Image, View, FlatList, Button } from 'react-native';
+import { TextInput, StyleSheet, Text, Image, View, FlatList, Button } from 'react-native';
 import { useState, useEffect } from 'react';
 import 'react-native-gesture-handler';
 
@@ -25,16 +25,13 @@ import { firebaseConfig } from './firebase/config'
 //   )
 // }
 
-//Initialize firebase
+//Initialize firebase and constants
 initializeApp(firebaseConfig)
 const dbRef = ref(getDatabase());
-const rs = child(dbRef, 'restaurants');
-const es = child(dbRef, 'entertainment');
-const users = child(dbRef, 'users');
-
 const cuisines = ['Italian', 'Chinese', 'French', 'Spanish', 'Mexican', 'Japanese', 'Thai', 'Korean', 'Mediterranean', 'American', 'Ethiopian', 'Other']
 const prices = ['$', '$$', '$$$', '$$$$']
 
+//test data
 const data = [
   {
     id: 1,
@@ -74,28 +71,10 @@ const data = [
 ]
   
 
-export function RFavorites() {
-  
-  const [dbState, setDbState] = useState({})
-  const [faves, setFaves] = useState([])
-  
-  // useEffect(() => {
-  //   get(dbRef).then((snapshot) => {
-  //     if (snapshot.exists()) {
-  //       let db = snapshot.val();
-  //       let rests = dbState.users.u1.Favs.split(',').map(x => parseInt(x))
-  //       setFaves(rests.map(x => db.restaurants[x]))
-  //       console.log(dbState, faves)
-  //     } else {
-  //       return {message: 'No data'};
-  //     }
-  //   }).catch((error) => {
-  //     console.error(error);
-  //   });
-  //   setDbState(db);
-  // }, []);
-
-
+function RFavorites(dbState) {
+  let rests = dbState.users.u1.Favs.split(',').map(x => parseInt(x)) //replace with auth
+  let faves = rests.map(x => dbState.restaurants[x])
+  console.log(faves)
   return (
     <View style={styles.container}>
       {/* <View style={styles.topbar}>
@@ -103,21 +82,26 @@ export function RFavorites() {
         <Image style = {{position: 'relative', right: 0, top: 0, height: 60, width: 60, resizeMode: 'contain'}} source={require('./images/unclogo.png')}/> 
       </View> */}
       <FlatList style={{flex: 1}}
-        data={data}
+        data={faves}
         renderItem={({item}) => 
         <View style={styles.card}>
           <View style={styles.imgs}>
-              <Image source={{uri: item['profile pic']}}
+              <Image source={{uri: item.photos.profile}}
               style={{borderRadius: 10, width: 130, height: 130}} />
           </View>
           <View style={styles.info}>
             <Text style={styles.businessTitle}>{item.name}</Text>
             <Text>{item.address}</Text>
+            <Text>{item.cuisine}</Text>
             <Text>0.7 miles away</Text>
             <Text>{item.price}</Text>
-            <Text style={styles.businessRating}>{Math.round(item.reviews.map(x => x.rating).reduce(
+            {item.reviews.length < 1 ? 
+            <Text style={styles.businessRating}>No reviews</Text> :
+            <Text style={styles.businessRating}>
+              {Math.round(Object.values(item.reviews).map(x => x.rating).reduce(
               (accumulator, currentValue) => accumulator + currentValue, 0) / item.reviews.length * 10) / 10
-            }/10 ({item.reviews.length})</Text>
+              }/10 ({item.reviews.length})
+            </Text>}
           </View>
         </View>
         }
@@ -154,22 +138,34 @@ export function RSearch() {
   )
 }
 
-async function read(r) {
-  get(r).then((snapshot) => {
-    if (snapshot.exists()) {
-      return snapshot.val();
-    } else {
-      return {message: 'No data'};
-    }
-  }).catch((error) => {
-    console.error(error);
-  });
-}
-
 export default function App() {
 
+  //Initialize state
+  const [dbState, setDbState] = useState({})
+  const [faves, setFaves] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+
+    const obtainDb = async () => {
+    await get(dbRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          let db = snapshot.val();
+          setDbState(db);
+          setLoading(false);
+        } else {
+          return {message: 'No data'};
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
+    obtainDb();
+  }, []);
+
+
   return(
-    RFavorites()
+    loading ? <View><Text>Loading...</Text></View> : RFavorites(dbState)
   )
 }
 
