@@ -118,6 +118,8 @@ function RFavorites(dbState) {
               style={{borderRadius: 10, width: 130, height: 130}} />
           </View>
           <View style={styles.info}>
+             <Image source={require('./images/favestar.png')}
+              style={styles.faveStar} />
             <Text style={styles.businessTitle}>{item.name.length > 20 ? item.name.substring(0,20) + '...' : item.name}</Text>
             <Text>{item.address.length > 30 ? item.address.substring(0,30) + '...' : item.address}</Text>
             <Text>{item.cuisine}</Text>
@@ -229,6 +231,13 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  faveStar: {
+    position: 'absolute',
+    right: 0,
+    bottom: 30,
+    width: 20,
+    height: 20,
   }
 });
 
