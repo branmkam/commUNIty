@@ -8,6 +8,7 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, get, child } from "firebase/database";
 import { firebaseConfig } from './firebase/config'
 
+
 //import drawer nav
 // import { createDrawerNavigator } from '@react-navigation/drawer';
 // import { NavigationContainer } from '@react-navigation/native';
@@ -71,46 +72,7 @@ const data = [
 ]
   
 
-function RFavorites(dbState) {
-  let rests = dbState.users.u1.Favs.split(',').map(x => parseInt(x)) //replace with auth
-  let faves = rests.map(x => dbState.restaurants[x])
-  console.log(faves)
-  return (
-    <View style={styles.container}>
-      {/* <View style={styles.topbar}>
-        <Image style = {{position: 'relative', left: 0, top: 0, height: 80, width: 80, resizeMode: 'contain'}} source={require('./images/logo.png')}/> 
-        <Image style = {{position: 'relative', right: 0, top: 0, height: 60, width: 60, resizeMode: 'contain'}} source={require('./images/unclogo.png')}/> 
-      </View> */}
-      <FlatList style={{flex: 1}}
-        data={faves}
-        renderItem={({item}) => 
-        <View style={styles.card}>
-          <View style={styles.imgs}>
-              <Image source={{uri: item.photos.profile}}
-              style={{borderRadius: 10, width: 130, height: 130}} />
-          </View>
-          <View style={styles.info}>
-            <Text style={styles.businessTitle}>{item.name}</Text>
-            <Text>{item.address}</Text>
-            <Text>{item.cuisine}</Text>
-            <Text>0.7 miles away</Text>
-            <Text>{item.price}</Text>
-            {item.reviews.length < 1 ? 
-            <Text style={styles.businessRating}>No reviews</Text> :
-            <Text style={styles.businessRating}>
-              {Math.round(Object.values(item.reviews).map(x => x.rating).reduce(
-              (accumulator, currentValue) => accumulator + currentValue, 0) / item.reviews.length * 10) / 10
-              }/10 ({item.reviews.length})
-            </Text>}
-          </View>
-        </View>
-        }
-        keyExtractor={item => item.id}
-      />
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+
 
 export function RSearch() {
   const [selectedCuisines, setSelectedCuisines] = useState([])
@@ -137,16 +99,50 @@ export function RSearch() {
     </View>
   )
 }
+function RFavorites(dbState) {
+  console.log(dbState)
+  let rests = dbState.users.u1.Favs.split(',').map(x => parseInt(x)) //replace with auth
+  let faves = rests.map(x => dbState.restaurants[x])
+  return (
+    <View style={styles.container}>
+      {/* <View style={styles.topbar}>
+        <Image style = {{position: 'relative', left: 0, top: 0, height: 80, width: 80, resizeMode: 'contain'}} source={require('./images/logo.png')}/> 
+        <Image style = {{position: 'relative', right: 0, top: 0, height: 60, width: 60, resizeMode: 'contain'}} source={require('./images/unclogo.png')}/> 
+      </View> */}
+      <FlatList style={{flex: 1}}
+        data={faves}
+        renderItem={({item}) => 
+        <View style={styles.card}>
+          <View style={styles.imgs}>
+              <Image source={{uri: item.photos.profile}}
+              style={{borderRadius: 10, width: 130, height: 130}} />
+          </View>
+          <View style={styles.info}>
+            <Text style={styles.businessTitle}>{item.name}</Text>
+            <Text>{item.address}</Text>
+            <Text>{item.cuisine}</Text>
+            <Text>0.7 miles away</Text>
+            <Text>{item.price}</Text>
+            <Text style={styles.businessRating}>{Math.round(Object.values(item.reviews).map(x => x.rating).reduce(
+    (accumulator, currentValue) => accumulator + currentValue, 0) / item.reviews.length * 10) / 10 ? `${Math.round(Object.values(item.reviews).map(x => x.rating).reduce(
+      (accumulator, currentValue) => accumulator + currentValue, 0) / item.reviews.length * 10) / 10}/10 (${item.reviews.length})` : 'No reviews'}</Text>
+          </View>
+        </View>
+        }
+        keyExtractor={item => item.id}
+      />
+      <StatusBar style="auto" />
+    </View>
+  );
+}
 
 export default function App() {
 
   //Initialize state
   const [dbState, setDbState] = useState({})
-  const [faves, setFaves] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-
     const obtainDb = async () => {
     await get(dbRef).then((snapshot) => {
         if (snapshot.exists()) {
@@ -165,7 +161,7 @@ export default function App() {
 
 
   return(
-    loading ? <View><Text>Loading...</Text></View> : RFavorites(dbState)
+    loading ? <View style={styles.container}><Text>Loading...</Text></View> : RFavorites(dbState)
   )
 }
 
