@@ -1,7 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { Pressable, TextInput, StyleSheet, Text, Image, View, FlatList, Button } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import 'react-native-gesture-handler';
+
+//import firebase
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, get, child } from "firebase/database";
+import { firebaseConfig } from './firebase/config'
 
 //import drawer nav
 // import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -19,6 +24,13 @@ import 'react-native-gesture-handler';
 //     </NavigationContainer>
 //   )
 // }
+
+//Initialize firebase
+initializeApp(firebaseConfig)
+const dbRef = ref(getDatabase());
+const rs = child(dbRef, 'restaurants');
+const es = child(dbRef, 'entertainment');
+const users = child(dbRef, 'users');
 
 const cuisines = ['Italian', 'Chinese', 'French', 'Spanish', 'Mexican', 'Japanese', 'Thai', 'Korean', 'Mediterranean', 'American', 'Ethiopian', 'Other']
 const prices = ['$', '$$', '$$$', '$$$$']
@@ -38,7 +50,7 @@ const data = [
     cuisine: ['Italian'],
     price: '$$$',
     address: '411 West Franklin Street',
-    img: 'https://images.squarespace-cdn.com/content/v1/5ae66c1fe74940380c17d72f/1525060507640-0VO0XMTXBFK83X12CA5H/IMG_20180423_214604%281%29.jpg?format=2500w',
+    "profile pic": 'https://images.squarespace-cdn.com/content/v1/5ae66c1fe74940380c17d72f/1525060507640-0VO0XMTXBFK83X12CA5H/IMG_20180423_214604%281%29.jpg?format=2500w',
   },
   {
     id: 2,
@@ -57,12 +69,33 @@ const data = [
     cuisine: ['American'],
     price: '$',
     address: '206 West Franklin Street',
-    img: 'https://static.spotapps.co/web/mightaswellbarandgrill--com/custom/chapel_hill_img_new.jpg',
+    "profile pic": 'https://static.spotapps.co/web/mightaswellbarandgrill--com/custom/chapel_hill_img_new.jpg',
   },
 ]
   
 
 export function RFavorites() {
+  
+  const [dbState, setDbState] = useState({})
+  const [faves, setFaves] = useState([])
+  
+  // useEffect(() => {
+  //   get(dbRef).then((snapshot) => {
+  //     if (snapshot.exists()) {
+  //       let db = snapshot.val();
+  //       let rests = dbState.users.u1.Favs.split(',').map(x => parseInt(x))
+  //       setFaves(rests.map(x => db.restaurants[x]))
+  //       console.log(dbState, faves)
+  //     } else {
+  //       return {message: 'No data'};
+  //     }
+  //   }).catch((error) => {
+  //     console.error(error);
+  //   });
+  //   setDbState(db);
+  // }, []);
+
+
   return (
     <View style={styles.container}>
       {/* <View style={styles.topbar}>
@@ -74,7 +107,7 @@ export function RFavorites() {
         renderItem={({item}) => 
         <View style={styles.card}>
           <View style={styles.imgs}>
-              <Image source={{uri: item.img}}
+              <Image source={{uri: item['profile pic']}}
               style={{borderRadius: 10, width: 130, height: 130}} />
           </View>
           <View style={styles.info}>
@@ -121,7 +154,20 @@ export function RSearch() {
   )
 }
 
+async function read(r) {
+  get(r).then((snapshot) => {
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return {message: 'No data'};
+    }
+  }).catch((error) => {
+    console.error(error);
+  });
+}
+
 export default function App() {
+
   return(
     RFavorites()
   )
@@ -190,3 +236,4 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
 });
+
