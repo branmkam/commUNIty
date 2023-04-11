@@ -100,15 +100,15 @@ export function RSearch() {
   )
 }
 function RFavorites(dbState) {
-  console.log(dbState)
   let rests = dbState.users.u1.Favs.split(',').map(x => parseInt(x)) //replace with auth
   let faves = rests.map(x => dbState.restaurants[x])
   return (
     <View style={styles.container}>
-      {/* <View style={styles.topbar}>
-        <Image style = {{position: 'relative', left: 0, top: 0, height: 80, width: 80, resizeMode: 'contain'}} source={require('./images/logo.png')}/> 
-        <Image style = {{position: 'relative', right: 0, top: 0, height: 60, width: 60, resizeMode: 'contain'}} source={require('./images/unclogo.png')}/> 
-      </View> */}
+      <View style={styles.topbar}>
+        <Text style={styles.headerTitle}>Favorites</Text>
+        {/* <Image style = {{position: 'relative', left: 0, top: 0, height: 80, width: 80, resizeMode: 'contain'}} source={require('./images/logo.png')}/> 
+        <Image style = {{position: 'relative', right: 0, top: 0, height: 60, width: 60, resizeMode: 'contain'}} source={require('./images/unclogo.png')}/>  */}
+      </View>
       <FlatList style={{flex: 1}}
         data={faves}
         renderItem={({item}) => 
@@ -119,7 +119,7 @@ function RFavorites(dbState) {
           </View>
           <View style={styles.info}>
             <Text style={styles.businessTitle}>{item.name}</Text>
-            <Text>{item.address}</Text>
+            <Text>{item.address.substring(0,30) + '...'}</Text>
             <Text>{item.cuisine}</Text>
             <Text>0.7 miles away</Text>
             <Text>{item.price}</Text>
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   topbar: {
     display: 'inline',
     marginTop: 40,
-    height: 80,
+    height: 40,
   },
   businessRating: {
     position: 'absolute',
@@ -227,5 +227,9 @@ const styles = StyleSheet.create({
     border: '1px solid #333',
     color: '#fff'
   },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  }
 });
 
