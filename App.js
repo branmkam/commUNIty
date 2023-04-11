@@ -118,14 +118,13 @@ function RFavorites(dbState) {
               style={{borderRadius: 10, width: 130, height: 130}} />
           </View>
           <View style={styles.info}>
-            <Text style={styles.businessTitle}>{item.name}</Text>
-            <Text>{item.address.substring(0,30) + '...'}</Text>
+            <Text style={styles.businessTitle}>{item.name.length > 20 ? item.name.substring(0,20) + '...' : item.name}</Text>
+            <Text>{item.address.length > 30 ? item.address.substring(0,30) + '...' : item.address}</Text>
             <Text>{item.cuisine}</Text>
             <Text>0.7 miles away</Text>
             <Text>{item.price}</Text>
-            <Text style={styles.businessRating}>{Math.round(Object.values(item.reviews).map(x => x.rating).reduce(
-    (accumulator, currentValue) => accumulator + currentValue, 0) / item.reviews.length * 10) / 10 ? `${Math.round(Object.values(item.reviews).map(x => x.rating).reduce(
-      (accumulator, currentValue) => accumulator + currentValue, 0) / item.reviews.length * 10) / 10}/10 (${item.reviews.length})` : 'No reviews'}</Text>
+            <Text style={styles.businessRating}>
+            {Object.values(item.reviews).length > 0 ? Math.round(Object.values(item.reviews).map(r => r.rating).reduce((acc, cv) => acc + cv, 0)*10  / Object.values(item.reviews).length)/10 : 'NA'}/10 ({Object.values(item.reviews).length})</Text>
           </View>
         </View>
         }
