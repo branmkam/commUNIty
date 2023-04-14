@@ -8,7 +8,6 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, get, child } from "firebase/database";
 import { firebaseConfig } from './firebase/config'
 
-
 //import drawer nav
 // import { createDrawerNavigator } from '@react-navigation/drawer';
 // import { NavigationContainer } from '@react-navigation/native';
@@ -25,6 +24,8 @@ import { firebaseConfig } from './firebase/config'
 //     </NavigationContainer>
 //   )
 // }
+
+import RFavorites from './components/RFavorites'
 
 //Initialize firebase and constants
 initializeApp(firebaseConfig)
@@ -74,8 +75,8 @@ const data = [
 
 
 
-export function RSearch() {
-  const [selectedCuisines, setSelectedCuisines] = useState([])
+export function RSearch(dbState) {
+  let selectedCuisines = []
   return(
     <View style={styles.container}>
       <TextInput
@@ -86,9 +87,12 @@ export function RSearch() {
         <FlatList style={{flex: 1}}
           data={cuisines}
           renderItem={({item}) => 
-          <Button onPress={() => {
-            if(!selectedCuisines.includes(item)) {
-              setSelectedCuisines(selectedCuisines.push(item));
+          <Button style={styles.unselectedButton} onPress={() => {
+            if(selectedCuisines.includes(item)) { //subtract
+              selectedCuisines.splice(selectedCuisines.indexOf(item), 1)
+            } 
+            else { //add
+              selectedCuisines.push(item);
             }
             console.log(selectedCuisines);
           }} title={item}/>
@@ -99,43 +103,46 @@ export function RSearch() {
     </View>
   )
 }
-function RFavorites(dbState) {
-  let rests = dbState.users.u1.Favs.split(',').map(x => parseInt(x)) //replace with auth
-  let faves = rests.map(x => dbState.restaurants[x])
-  return (
-    <View style={styles.container}>
-      <View style={styles.topbar}>
-        <Text style={styles.headerTitle}>Favorites</Text>
-        {/* <Image style = {{position: 'relative', left: 0, top: 0, height: 80, width: 80, resizeMode: 'contain'}} source={require('./images/logo.png')}/> 
-        <Image style = {{position: 'relative', right: 0, top: 0, height: 60, width: 60, resizeMode: 'contain'}} source={require('./images/unclogo.png')}/>  */}
-      </View>
-      <FlatList style={{flex: 1}}
-        data={faves}
-        renderItem={({item}) => 
-        <View style={styles.card}>
-          <View style={styles.imgs}>
-              <Image source={{uri: item.photos.profile}}
-              style={{borderRadius: 10, width: 130, height: 130}} />
-          </View>
-          <View style={styles.info}>
-             <Image source={require('./images/favestar.png')}
-              style={styles.faveStar} />
-            <Text style={styles.businessTitle}>{item.name.length > 20 ? item.name.substring(0,20) + '...' : item.name}</Text>
-            <Text>{item.address.length > 30 ? item.address.substring(0,30) + '...' : item.address}</Text>
-            <Text>{item.cuisine}</Text>
-            <Text>0.7 miles away</Text>
-            <Text>{item.price}</Text>
-            <Text style={styles.businessRating}>
-            {Object.values(item.reviews).length > 0 ? Math.round(Object.values(item.reviews).map(r => r.rating).reduce((acc, cv) => acc + cv, 0)*10  / Object.values(item.reviews).length)/10 : 'NA'}/10 ({Object.values(item.reviews).length})</Text>
-          </View>
-        </View>
-        }
-        keyExtractor={item => item.id}
-      />
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+
+// function RFavorites(dbState) {
+//   let rests = dbState.users.u1.Favs.split(',').map(x => parseInt(x)) //replace with auth
+//   let faves = rests.map(x => dbState.restaurants[x])
+
+//   //define on global scale - pass down as a prop
+//   return (
+//     <View style={styles.container}>
+//       <View style={styles.topbar}>
+//         <Text style={styles.headerTitle}>Favorites</Text>
+//         {/* <Image style = {{position: 'relative', left: 0, top: 0, height: 80, width: 80, resizeMode: 'contain'}} source={require('./images/logo.png')}/> 
+//         <Image style = {{position: 'relative', right: 0, top: 0, height: 60, width: 60, resizeMode: 'contain'}} source={require('./images/unclogo.png')}/>  */}
+//       </View>
+//       <FlatList style={{flex: 1}}
+//         data={faves}
+//         renderItem={({item}) => 
+//         <View style={styles.card}>
+//           <View style={styles.imgs}>
+//               <Image source={{uri: item.photos.profile}}
+//               style={{borderRadius: 10, width: 130, height: 130}} />
+//           </View>
+//           <View style={styles.info}>
+//              <Image source={require('./images/favestar.png')}
+//               style={styles.faveStar} />
+//             <Text style={styles.businessTitle}>{item.name.length > 20 ? item.name.substring(0,20) + '...' : item.name}</Text>
+//             <Text>{item.address.length > 30 ? item.address.substring(0,30) + '...' : item.address}</Text>
+//             <Text>{item.cuisine}</Text>
+//             <Text>0.7 miles away</Text>
+//             <Text>{item.price}</Text>
+//             <Text style={styles.businessRating}>
+//             {Object.values(item.reviews).length > 0 ? Math.round(Object.values(item.reviews).map(r => r.rating).reduce((acc, cv) => acc + cv, 0)*10  / Object.values(item.reviews).length)/10 : 'NA'}/10 ({Object.values(item.reviews).length})</Text>
+//           </View>
+//         </View>
+//         }
+//         keyExtractor={item => item.id}
+//       />
+//       <StatusBar style="auto" />
+//     </View>
+//   );
+// }
 
 export default function App() {
 
@@ -162,7 +169,8 @@ export default function App() {
 
 
   return(
-    loading ? <View style={styles.container}><Text>Loading...</Text></View> : RFavorites(dbState)
+    loading ? <View style={styles.container}><Text>Loading...</Text></View> : RSearch(dbState)
+    //call RFavorites instead of RSearch, using some sort of props potentially?
   )
 }
 
@@ -210,23 +218,20 @@ const styles = StyleSheet.create({
     border: '1px solid #333',
     paddingLeft: 5,
     padding: 1,
+    paddingRight: 5,
   },
   buttonsView: {
     flex: 1,
     flexDirection: 'row',
     flexWrap: true,
   },
-  unselectedButton: {
+  selectorButton: {
     margin: 2,
     backgroundColor: "#ddd",
     border: '2px solid #333',
     borderRadius: 10,
-    color: '#333'
-  },
-  selectedButton: {
-    backgroundColor: "#4455ee",
-    border: '1px solid #333',
-    color: '#fff'
+    color: '#333',
+    width: '20%'
   },
   headerTitle: {
     fontSize: 20,
