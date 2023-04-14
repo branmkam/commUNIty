@@ -169,8 +169,7 @@ export default function App() {
 
 
   return(
-    loading ? <View style={styles.container}><Text>Loading...</Text></View> : RSearch(dbState)
-    //call RFavorites instead of RSearch, using some sort of props potentially?
+    loading ? <View style={styles.container}><Text>Loading...</Text></View> : RSearch(dbState) //call RFavorites instead of RSearch, using some sort of props potentially? maybe <RFavorites props={dbState}/>
   )
 }
 
