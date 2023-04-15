@@ -1,4 +1,10 @@
-export default function RFavorites(dbState) {
+import { TextInput, StyleSheet, Text, Image, View, FlatList, Button } from 'react-native';
+import 'react-native-gesture-handler';
+import * as React from 'react';
+import { styles } from '../styles';
+
+export default function RFavorites(props) {
+    const { dbState, setDbState } = props
     let rests = dbState.users.u1.Favs.split(',').map(x => parseInt(x)) //replace with auth
     let faves = rests.map(x => dbState.restaurants[x])
   
@@ -19,7 +25,7 @@ export default function RFavorites(dbState) {
                 style={{borderRadius: 10, width: 130, height: 130}} />
             </View>
             <View style={styles.info}>
-               <Image source={require('./images/favestar.png')}
+               <Image source={require('../images/favestar.png')}
                 style={styles.faveStar} />
               <Text style={styles.businessTitle}>{item.name.length > 20 ? item.name.substring(0,20) + '...' : item.name}</Text>
               <Text>{item.address.length > 30 ? item.address.substring(0,30) + '...' : item.address}</Text>
@@ -33,7 +39,6 @@ export default function RFavorites(dbState) {
           }
           keyExtractor={item => item.id}
         />
-        <StatusBar style="auto" />
       </View>
     );
   }
