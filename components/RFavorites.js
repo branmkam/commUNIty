@@ -11,11 +11,6 @@ export default function RFavorites(props) {
     //define on global scale - pass down as a prop
     return (
       <View style={styles.container}>
-        <View style={styles.topbar}>
-          <Text style={styles.headerTitle}>Favorites</Text>
-          {/* <Image style = {{position: 'relative', left: 0, top: 0, height: 80, width: 80, resizeMode: 'contain'}} source={require('./images/logo.png')}/> 
-          <Image style = {{position: 'relative', right: 0, top: 0, height: 60, width: 60, resizeMode: 'contain'}} source={require('./images/unclogo.png')}/>  */}
-        </View>
         <FlatList style={{flex: 1}}
           data={faves}
           renderItem={({item}) => 
