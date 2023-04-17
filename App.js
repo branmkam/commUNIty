@@ -95,8 +95,8 @@ export default function App() {
     loading ? <View style={styles.container}><Text>Loading...</Text></View> :
 
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Favorites">
-          <Drawer.Screen name="Favorites" component={() => <RFavorites dbState={dbState} setDbState={setDbState}/>} />
+        <Drawer.Navigator initialRouteName="Search">
+          <Drawer.Screen name="Favorites" component={() => <RFavorites dbState={dbState} setDbState={setDbState} />} />
           <Drawer.Screen name="Search" component={() => <RSearch dbState={dbState} setDbState={setDbState}/>} />
         </Drawer.Navigator>
       </NavigationContainer>
