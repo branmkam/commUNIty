@@ -106,6 +106,7 @@ export default function RSearch(props) {
           />
         </View>
         <Button onPress={() => {
+          //filter logic for search
           if (selectedCuisines.length > 0) {
             if (selectedPrices.length > 0) {
               setSelectedRs(Object.values(dbState.restaurants)
