@@ -22,8 +22,8 @@ export default function Login() {
           placeholder="Email."
           placeholderTextColor="#003f5c"
           onChangeText={(email) => setEmail(email)}
-        /> 
-      </View> 
+        />
+      </View>
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
@@ -31,15 +31,15 @@ export default function Login() {
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
-        /> 
-      </View> 
+        />
+      </View>
       <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text> 
-      </TouchableOpacity> 
+        <Text style={styles.forgot_button}>Forgot Password?</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.loginBtn}>
-        <Text style={styles.loginText}>LOGIN</Text> 
-      </TouchableOpacity> 
-    </View> 
+        <Text style={styles.loginText}>LOGIN</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 const styles = StyleSheet.create({
@@ -55,6 +55,8 @@ const styles = StyleSheet.create({
   inputView: {
     backgroundColor: "#FFFFF",
     borderColor: "#4B9CD3",
+    borderStyle: "solid",
+    borderWidth: 2,
     borderRadius: 30,
     width: "70%",
     height: 45,
@@ -79,6 +81,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 40,
     backgroundColor: "#4B9CD3",
-    
+
   },
 });

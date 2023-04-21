@@ -20,6 +20,7 @@ const Drawer = createDrawerNavigator();
 //import Data
 import RFavorites from './components/RFavorites'
 import RSearch from './components/RSearch'
+import Login from './components/Login';
 
 
 //Initialize firebase and constants
@@ -98,6 +99,7 @@ export default function App() {
         <Drawer.Navigator initialRouteName="Search">
           <Drawer.Screen name="Favorites" component={() => <RFavorites dbState={dbState} setDbState={setDbState} />} />
           <Drawer.Screen name="Search" component={() => <RSearch dbState={dbState} setDbState={setDbState}/>} />
+          <Drawer.Screen name="Login" component={() => <Login dbState={dbState} setDbState={setDbState}/>}/>
         </Drawer.Navigator>
       </NavigationContainer>
 
