@@ -8,7 +8,7 @@ import { useState, setError } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, get, child } from "firebase/database";
 import { firebaseConfig } from '../firebase/config'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 
 export default function Signup(props) {
@@ -38,15 +38,17 @@ const [confirmUserPassword, setConfirmUserPassword] = useState('Enter Your Passw
 //     alert(error.message);
 // });
 const createAccount = async () => {
-    try {
+      console.log(userEmail, userPassword, userName)
       await createUserWithEmailAndPassword(auth, userEmail, userPassword)
       .then((userCredential) => {
          //put user state var update here
-         userCredential.updateProfile({username : userName})
-      });
-    } catch (e) {
-      console.log('There was a problem creating your account');
-    }
+         console.log(userCredential)
+         updateProfile(auth.currentUser, {displayName : userName})
+      }).catch((e) => {
+        console.log(e.message);
+        console.log('There was a problem creating your account');
+      })
+
   };
   
  
@@ -91,7 +93,7 @@ const createAccount = async () => {
               onChangeText={(password) => setConfirmUserPassword(password)}
             /> 
           </View> 
-          <TouchableOpacity style={styles.submitBtn} onPress={createAccount} disabled= {!userEmail || !userPassword }>
+          <TouchableOpacity style={styles.submitBtn} onPress={createAccount} disabled= {!userEmail || !userPassword || (userPassword != confirmUserPassword) }>
              <Text style={styles.loginText}>Submit</Text> 
         </TouchableOpacity> 
           </View>
