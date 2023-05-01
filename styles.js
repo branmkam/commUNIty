@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></link>
+
 export const styles =
     StyleSheet.create({
     container: {
@@ -10,6 +12,11 @@ export const styles =
       backgroundColor: '#fff',
       alignItems: 'center',
       //justifyContent: 'center',
+    },
+    container2: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between'
     },
     card: {
       flex: 1,
@@ -41,11 +48,11 @@ export const styles =
     input: {
       backgroundColor: '#eee',
       color: '#000',
-      borderRadius: 10,
+      borderRadius: 20,
       border: '1px solid #333',
       paddingLeft: 5,
-      padding: 1,
-      paddingRight: 5,
+      padding: 8,
+      paddingRight: 175,
     },
     buttonsView: {
       flex: 1,
