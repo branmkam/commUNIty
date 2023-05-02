@@ -27,6 +27,7 @@ import RSearch from './components/RSearch'
 import Login from './components/Login';
 import Signup from './components/signup';
 import RDeals from './components/RDeals';
+import REvents from './components/REvents';
 
 //Initialize firebase and constants
 initializeApp(firebaseConfig)
@@ -66,7 +67,7 @@ export default function App() {
           <Drawer.Screen name="Favorites" component={() => <RFavorites dbState={dbState} setDbState={setDbState} />} />
           <Drawer.Screen name="Search" component={() => <RSearch dbState={dbState} setDbState={setDbState}/>} />
           <Drawer.Screen name="Deals" component={() => <RDeals dbState={dbState} setDbState={setDbState} />} />
-          {/* <Drawer.Screen name="Events" component={() => <REvents dbState={dbState} setDbState={setDbState}/>} /> */}
+          <Drawer.Screen name="Events" component={() => <REvents dbState={dbState} setDbState={setDbState}/>} />
           <Drawer.Screen name="Login" component={() => <Login auth={auth} dbState={dbState} setDbState={setDbState}/>}/>
           <Drawer.Screen name="Signup" component={() => <Signup auth={auth} dbState={dbState} setDbState={setDbState}/>}/>
         </Drawer.Navigator>
