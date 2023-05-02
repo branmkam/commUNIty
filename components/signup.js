@@ -15,14 +15,17 @@ export default function Signup(props) {
 initializeApp(firebaseConfig)
 const dbRef = ref(getDatabase());
 
-const auth = getAuth();
-
+let { auth } = props;
 
 const [userEmail, setUserEmail] = useState('Enter Your Email');
 const [userName, setUserName] = useState('Enter Your Username');
 const [userPassword, setUserPassword] = useState('Enter Your Password');
 const [confirmUserPassword, setConfirmUserPassword] = useState('Enter Your Password');
 
+
+auth.onAuthStateChanged(() => { 
+  console.log('auth changed! user ' + auth.currentUser.displayName)
+})
 
 // firebase.auth().createUserWithEmailAndPassword(auth, userEmail,userName, userPassword).then((userCredential)=>{
 //     // if (userCredential){

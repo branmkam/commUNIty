@@ -10,6 +10,7 @@ export default function DealsCard(props) {
     const endd = Date(deal.end)
     console.log(deal.start)
     return(
+        
         <View style={styles.card}>
             <Image source={{uri: deal.image}}/>
             <Text>{deal.text}</Text>
