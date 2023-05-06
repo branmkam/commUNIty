@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import RProfile from './RProfile';
 import { ButtonGroup } from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import 'bootstrap/dist/css/bootstrap.min.css';
+/*import 'bootstrap/dist/css/bootstrap.min.css';*/
 import Row from 'react-bootstrap/Row'
 
 
