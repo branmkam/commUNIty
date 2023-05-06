@@ -1,26 +1,31 @@
-import { TextInput, Text, Image, View, FlatList, Button,StyleSheet, TouchableOpacity } from 'react-native';
+import { TextInput, Text, Image, View, FlatList, Button, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { styles } from '../styles';
+import { useState, setError } from 'react';
+//import { styles } from '../styles';
 
 //import firebase
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, get, child } from "firebase/database";
-import { firebaseConfig } from './firebase/config'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { firebaseConfig } from '../firebase/config'
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 
-export default function signup(props) {
+export default function Signup(props) {
 initializeApp(firebaseConfig)
 const dbRef = ref(getDatabase());
 
-const auth = getAuth();
-
+let { auth } = props;
 
 const [userEmail, setUserEmail] = useState('Enter Your Email');
 const [userName, setUserName] = useState('Enter Your Username');
 const [userPassword, setUserPassword] = useState('Enter Your Password');
+const [confirmUserPassword, setConfirmUserPassword] = useState('Enter Your Password');
 
+
+auth.onAuthStateChanged(() => { 
+  console.log('auth changed! user ' + auth.currentUser.displayName)
+})
 
 // firebase.auth().createUserWithEmailAndPassword(auth, userEmail,userName, userPassword).then((userCredential)=>{
 //     // if (userCredential){
@@ -36,11 +41,17 @@ const [userPassword, setUserPassword] = useState('Enter Your Password');
 //     alert(error.message);
 // });
 const createAccount = async () => {
-    try {
-      await createUserWithEmailAndPassword(auth, userEmail,userName, userPassword);
-    } catch (e) {
-      setError('There was a problem creating your account');
-    }
+      console.log(userEmail, userPassword, userName)
+      await createUserWithEmailAndPassword(auth, userEmail, userPassword)
+      .then((userCredential) => {
+         //put user state var update here
+         console.log(userCredential)
+         updateProfile(auth.currentUser, {displayName : userName})
+      }).catch((e) => {
+        console.log(e.message);
+        console.log('There was a problem creating your account');
+      })
+
   };
   
  
@@ -56,7 +67,7 @@ const createAccount = async () => {
               style={styles.TextInput}
               placeholder="Email."
               placeholderTextColor="#003f5c"
-              onChangeText={(email) => setEmail(setUserEmail)}
+              onChangeText={(email) => setUserEmail(email)}
             /> 
           </View> 
           <View style={styles.inputView}>
@@ -64,20 +75,28 @@ const createAccount = async () => {
               style={styles.TextInput}
               placeholder="Username"
               placeholderTextColor="#003f5c"
-              secureTextEntry={true}
-              onChangeText={(username) => setPassword(setUserName)}
+              onChangeText={(username) => setUserName(username)}
             /> 
           </View> 
           <View style={styles.inputView}>
             <TextInput
               style={styles.TextInput}
-              placeholder="Password."
+              placeholder="Password"
               placeholderTextColor="#003f5c"
               secureTextEntry={true}
-              onChangeText={(password) => setPassword(setUserPassword)}
+              onChangeText={(password) => setUserPassword(password)}
             /> 
           </View> 
-          <TouchableOpacity style={styles.submitBtn} onPress={createAccount} disabled= {!email || !password || !confirmPassword}>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Confirm Password"
+              placeholderTextColor="#003f5c"
+              secureTextEntry={true}
+              onChangeText={(password) => setConfirmUserPassword(password)}
+            /> 
+          </View> 
+          <TouchableOpacity style={styles.submitBtn} onPress={createAccount} disabled= {!userEmail || !userPassword || (userPassword != confirmUserPassword) }>
              <Text style={styles.loginText}>Submit</Text> 
         </TouchableOpacity> 
           </View>

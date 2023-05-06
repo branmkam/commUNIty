@@ -12,8 +12,12 @@
     "@expo/webpack-config": "^18.0.1",
     "@react-navigation/drawer": "^6.6.2",
     "@react-navigation/native": "^6.1.6",
+<<<<<<< HEAD
     "bootstrap": "^5.3.0-alpha3",
     "bulma": "^0.9.4",
+=======
+    "@react-navigation/stack": "^6.3.16",
+>>>>>>> 07dd79cbb2a71cedd33dfc6ae44ddf411ab1119c
     "expo": "~48.0.10",
     "expo-status-bar": "~1.4.4",
     "firebase": "^9.19.1",
