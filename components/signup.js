@@ -15,7 +15,7 @@ export default function Signup(props) {
 initializeApp(firebaseConfig)
 const dbRef = ref(getDatabase());
 
-let { auth } = props;
+const { auth, nav } = props;
 
 const [userEmail, setUserEmail] = useState('Enter Your Email');
 const [userName, setUserName] = useState('Enter Your Username');
@@ -27,19 +27,7 @@ auth.onAuthStateChanged(() => {
   console.log('auth changed! user ' + auth.currentUser.displayName)
 })
 
-// firebase.auth().createUserWithEmailAndPassword(auth, userEmail,userName, userPassword).then((userCredential)=>{
-//     // if (userCredential){
-//     //    userCredential.updateEmail({
-//     //         email: userEmail,
-//     const user = userCredential.user
 
-//         }).then((s)=> {
-//             this.props.navigation.navigate('Homepage');
-//         })
-// }
-// }).catch(function(error){
-//     alert(error.message);
-// });
 const createAccount = async () => {
       console.log(userEmail, userPassword, userName)
       await createUserWithEmailAndPassword(auth, userEmail, userPassword)

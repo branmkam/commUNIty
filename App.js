@@ -59,9 +59,9 @@ export default function App() {
     obtainDb();
   }, []);
 
+  // auth.currentUser.uid
   return(
     loading ? <View style={styles.container}><Text>Loading...</Text></View> :
-    (auth.currentUser != null ?
     <NavigationContainer>
         <Drawer.Navigator initialRouteName="Deals">
           <Drawer.Screen name="Favorites" component={() => <RFavorites dbState={dbState} setDbState={setDbState} />} />
@@ -71,16 +71,8 @@ export default function App() {
           <Drawer.Screen name="Login" component={() => <Login auth={auth} dbState={dbState} setDbState={setDbState}/>}/>
           <Drawer.Screen name="Signup" component={() => <Signup auth={auth} dbState={dbState} setDbState={setDbState}/>}/>
         </Drawer.Navigator>
-      </NavigationContainer> : 
-      <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={() => <Login auth={auth}/>} />
-        <Stack.Screen name="Signup" component={() => <Signup auth={auth}/>} />
-      </Stack.Navigator>
-    </NavigationContainer>
-
+      </NavigationContainer> 
     )
-  )
 } 
 
 export function parseISOString(s) {

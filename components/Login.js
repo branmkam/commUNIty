@@ -9,9 +9,32 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
-export default function Login() {
+
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+export default function Login(props) {
+
+ const { auth, nav } = props;
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const signInAccount = async () => {
+    await signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+       console.log(userCredential)
+       nav.navigate('Deals')
+    }).catch((e) => {
+      console.log(e.message);
+      console.log('There was a problem signing in');
+    })
+  }
+
+
+  auth.onAuthStateChanged(() => { 
+    console.log('auth changed! user ' + auth.currentUser.displayName)
+  })
+
   return (
     <View style={styles.container}>
       {/* <Image style={styles.image} source={require("./assets/log2.png")} />  */}
@@ -36,7 +59,7 @@ export default function Login() {
       <TouchableOpacity>
         <Text style={styles.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.loginBtn}>
+      <TouchableOpacity onPress={signInAccount} style={styles.loginBtn}>
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
     </View>
