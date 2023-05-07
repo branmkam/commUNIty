@@ -104,6 +104,8 @@ const styles = StyleSheet.create({
   inputView: {
     backgroundColor: "#FFFFF",
     borderColor: "#4B9CD3",
+    borderStyle: "solid",
+    borderWidth: 2,
     borderRadius: 30,
     width: "70%",
     height: 45,
