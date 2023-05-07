@@ -30,11 +30,12 @@ export default function RDeals(props) {
 
     let deals = deals2.map(x => x.deals).flat().filter(x => x != undefined);
 
+
     //sort by ascending time - return first few after current end date
     deals = deals.filter(x => parseISOString(x.end) >= today).sort((a, b) => parseISOString(a.start) - parseISOString(b.start));
 
     return(
-      (profile ? <RProfile info={profile}/>:
+      (profile ? <RProfile info={profile} auth={auth}/>:
         deals.length == 0 ?  
         <View style={styles.container}>
             <Text>No deals - come back later!</Text>

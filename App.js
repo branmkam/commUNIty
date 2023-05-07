@@ -12,14 +12,12 @@ import { firebaseConfig } from './firebase/config'
 
 //import navs
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 
 //init Drawer Nav
 const Drawer = createDrawerNavigator();
-const Stack = createStackNavigator();
 
 //import Data
 import RFavorites from './components/RFavorites'
@@ -63,15 +61,15 @@ export default function App() {
   return(
     loading ? <View style={styles.container}><Text>Loading...</Text></View> :
     <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Deals">
-          <Drawer.Screen name="Favorites" component={() => <RFavorites dbState={dbState} setDbState={setDbState} />} />
-          <Drawer.Screen name="Search" component={() => <RSearch dbState={dbState} setDbState={setDbState}/>} />
-          <Drawer.Screen name="Deals" component={() => <RDeals dbState={dbState} setDbState={setDbState} />} />
-          <Drawer.Screen name="Events" component={() => <REvents dbState={dbState} setDbState={setDbState}/>} />
-          <Drawer.Screen name="Login" component={() => <Login auth={auth} dbState={dbState} setDbState={setDbState}/>}/>
-          <Drawer.Screen name="Signup" component={() => <Signup auth={auth} dbState={dbState} setDbState={setDbState}/>}/>
-        </Drawer.Navigator>
-      </NavigationContainer> 
+      <Drawer.Navigator initialRouteName="Deals">
+        <Drawer.Screen name="Favorites" component={() => <RFavorites auth={auth} dbState={dbState} setDbState={setDbState} />} />
+        <Drawer.Screen name="Search" component={() => <RSearch auth={auth} dbState={dbState} setDbState={setDbState}/>} />
+        <Drawer.Screen name="Deals" component={() => <RDeals auth={auth} dbState={dbState} setDbState={setDbState} />} />
+        <Drawer.Screen name="Events" component={() => <REvents auth={auth} dbState={dbState} setDbState={setDbState}/>} />
+        <Drawer.Screen name="Login" component={() => <Login auth={auth} dbState={dbState} setDbState={setDbState}/>}/>
+        <Drawer.Screen name="Signup" component={() => <Signup auth={auth} dbState={dbState} setDbState={setDbState}/>}/>
+      </Drawer.Navigator>
+    </NavigationContainer> 
     )
 } 
 

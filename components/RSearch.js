@@ -7,7 +7,6 @@ import Button from 'react-bootstrap/Button';
 import RProfile from './RProfile';
 import { ButtonGroup } from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-/*import 'bootstrap/dist/css/bootstrap.min.css';*/
 import Row from 'react-bootstrap/Row'
 
 
@@ -36,7 +35,7 @@ export default function RSearch(props) {
 
   const cuisines = ['Italian', 'Chinese', 'French', 'Spanish', 'Mexican', 'Japanese', 'Thai', 'Korean', 'Mediterranean', 'American', 'Ethiopian', 'Other']
   const prices = ['$', '$$', '$$$', '$$$$']
-  const { dbState } = props;
+  const { auth, dbState } = props;
   let selectedCuisines = [];
   let selectedPrices = [];
   const handleClickItalian = () => {

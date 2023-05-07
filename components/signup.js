@@ -35,6 +35,17 @@ const createAccount = async () => {
          //put user state var update here
          console.log(userCredential)
          updateProfile(auth.currentUser, {displayName : userName})
+         //init user data
+         set(ref(db, 'users/' + auth.currentUser.uid), {
+          faves: ''
+        })
+        .then(() => {
+          console.log('added')
+        })
+        .catch((error) => {
+          console.log('error: ' + error)
+        });
+         nav.navigate('Deals')
       }).catch((e) => {
         console.log(e.message);
         console.log('There was a problem creating your account');

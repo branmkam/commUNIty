@@ -1,17 +1,87 @@
-import { TextInput, StyleSheet, Text, Image, View, FlatList, Button, Pressable } from 'react-native';
+import { TextInput, StyleSheet, Modal, Text, Image, View, FlatList, Button, Pressable } from 'react-native';
 import 'react-native-gesture-handler';
 import * as React from 'react';
 import { styles } from '../styles';
 import DealsCard from './DealsCard';
 import EventsCard from './EventsCard';
+import { useState } from 'react';
+import { getDatabase, ref, child, get, set } from "firebase/database";
+
 
 //also include review module in here at some point
 export default function RProfile(props) {
-    const { info } = props;
-    console.log(info)
+
+  //toggle favorite restaurant by id
+    function toggleFave(arr, toggle) {   
+      if(arr == '') {
+        return [toggle].join(',')
+      }
+      else {
+        arr = arr.split(',').map(x => parseInt(x))
+        if(arr.includes(toggle)) {
+          arr.splice(arr.indexOf(toggle), 1)
+        }
+        else {
+          arr.push(toggle)
+        }
+      }
+      return arr.join(',')
+    }
+      
+    //toggle with database calls
+    function toggleFaveRest() {
+      get(child(dbRef, 'users/')).then((snapshot) => {
+        if (snapshot.exists()) {
+          set(ref(db, 'users/' + auth.currentUser.uid), {
+            faves: toggleFave(snapshot.val()[auth.currentUser.uid].faves, info.id)
+          })
+          .then(() => {
+            setFavorited(!favorited)
+          })
+          .catch((error) => {
+            console.log('error: ' + error)
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
+
+
+    //database logic for toggling favorite
+    const { info, auth } = props;
+
+    const db = getDatabase();
+    const dbRef = ref(getDatabase());
+
+    const [modalVisible, setModalVisible] = useState(false)
+    const [title, setTitle] = useState('')
+    const [body, setBody] = useState('')
+    const [rating, setRating] = useState(0)
+    const [favorited, setFavorited] = useState(false)
+
+    //set State based on if favorited already
+    let v = false;
+    get(child(dbRef, 'users/')).then((snapshot) => {
+        if (snapshot.exists()) {
+          v = snapshot.val()[auth.currentUser.uid].faves.split(',').map(x => parseInt(x)).includes(info.id)
+          setFavorited(v);
+        }
+      });
+
+
     return( 
         <View style={styles.container}>
             <Text>{info.name}</Text>
+            {/* Favorite logic*/}
+            <Pressable onPress = {() => {
+              toggleFaveRest()
+            }
+            }>
+              <Text>{favorited ? 'Unfavorite' : 'Favorite'}</Text>
+            </Pressable>
+            {/* <Image source={require('../images/favestar.png')} style={{height: 50}}/> fix later*/}
             <Image source={{uri: info.photos.profile}} style={{borderRadius: 10, width: 130, height: 130}} />
             <Text>{Object.values(info.reviews).length > 0 ? Math.round(Object.values(info.reviews).map(r => r.rating).reduce((acc, cv) => acc + cv, 0)*10  / Object.values(info.reviews).length)/10 : 'NA'}/10 ({Object.values(info.reviews).length})</Text>
             <Text>{info.hours}</Text>
@@ -46,6 +116,58 @@ export default function RProfile(props) {
           }
           keyExtractor={item => item.id}
         />
+        <Button title="Add Review" onPress={() => {
+          setModalVisible(true)
+        }}/>
+
+        {/* MODAL */}
+        <View>
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}>
+            <View>
+              <Text>Review {info.name}</Text>
+              <TextInput
+                placeholder = "Title"
+                onChangeText={(txt) => {
+                  setTitle(txt);
+                }
+              }
+              />
+              <TextInput
+                placeholder = "Rating"
+                onChangeText={(txt) => {
+                  setRating(parseFloat(txt))
+                  if(rating < 0) {
+                    setRating(0)
+                  }
+                  else if(rating > 10) {
+                    setRating(10)
+                  }
+                  console.log(rating)
+                }}
+              />
+              <TextInput
+                placeholder = "Body"
+                onChangeText={(txt) => {
+                    setBody(txt);
+                  }
+                }
+              />
+                <Pressable
+                  onPress={() => 
+                  setModalVisible(!modalVisible)
+                  }>
+                  <Text style>Submit Review</Text>
+                </Pressable>
+            </View>
+          </Modal>
         </View>
+
+      </View>
     )
 }

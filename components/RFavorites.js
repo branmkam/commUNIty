@@ -4,14 +4,31 @@ import * as React from 'react';
 import { styles } from '../styles';
 import { useState } from 'react';
 import RProfile from './RProfile';
+import { get, child, set, ref, getDatabase } from 'firebase/database'
 
 export default function RFavorites(props) {
 
     const [profile, setProfile] = useState(null);
+    const [dbState, setDbState] = useState({});
+    const [faves, setFaves] = useState([]);
 
-    const { dbState, setDbState } = props
-    let rests = dbState.users.u1.Favs.split(',').map(x => parseInt(x)) //replace with auth
-    let faves = rests.map(x => dbState.restaurants[x])
+    const dbRef = ref(getDatabase());
+
+    const { auth } = props
+
+    //call db
+    get(child(dbRef, '/')).then((snapshot) => {
+        if (snapshot.exists()) {
+          setDbState(snapshot.val());
+          if(dbState.users[auth.currentUser.uid].faves) {
+            let rests = dbState.users[auth.currentUser.uid].faves.split(',').map(x => parseInt(x))
+            setFaves(rests.map(x => dbState.restaurants[x]))
+          }
+          else {
+            setFaves([])
+          }
+        }
+    });
   
     //define on global scale - pass down as a prop
     return ( profile ? 
@@ -21,7 +38,7 @@ export default function RFavorites(props) {
           }
         } 
         title="Back" />
-        <RProfile info={profile} />
+        <RProfile info={profile} auth={auth}/>
       </View>
       :
       <View style={styles.container}>
@@ -43,7 +60,6 @@ export default function RFavorites(props) {
               <Text style={styles.businessTitle}>{item.name.length > 20 ? item.name.substring(0,20) + '...' : item.name}</Text>
               <Text>{item.address.length > 30 ? item.address.substring(0,30) + '...' : item.address}</Text>
               <Text>{item.cuisine}</Text>
-              <Text>0.7 miles away</Text>
               <Text>{item.price}</Text>
               <Text style={styles.businessRating}>
               {Object.values(item.reviews).length > 0 ? Math.round(Object.values(item.reviews).map(r => r.rating).reduce((acc, cv) => acc + cv, 0)*10  / Object.values(item.reviews).length)/10 : 'NA'}/10 ({Object.values(item.reviews).length})</Text>
