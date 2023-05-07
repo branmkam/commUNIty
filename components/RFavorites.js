@@ -31,7 +31,7 @@ export default function RFavorites(props) {
     });
   
     //define on global scale - pass down as a prop
-    return ( profile ? 
+    return auth.currentUser ? ( profile ? 
       <View style={styles.container}>
           <Button onPress={() => {
             setProfile(null);
@@ -69,5 +69,5 @@ export default function RFavorites(props) {
           keyExtractor={item => item.id}
         />
       </View>
-    );
+    ) : <Text>Sign in to see your favorites!</Text>;
   }
