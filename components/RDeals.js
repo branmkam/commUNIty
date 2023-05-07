@@ -35,7 +35,7 @@ export default function RDeals(props) {
     deals = deals.filter(x => parseISOString(x.end) >= today).sort((a, b) => parseISOString(a.start) - parseISOString(b.start));
 
     return(
-      (profile ? <RProfile info={profile} auth={auth}/>:
+      (profile != null ? <RProfile info={profile} auth={auth}/>:
         deals.length == 0 ?  
         <View style={styles.container}>
             <Text>No deals - come back later!</Text>

@@ -1,6 +1,7 @@
 {
   "name": "reactnativetest",
   "version": "1.0.0",
+  "homepage": "https://branmkam.github.io/commUNIty",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -28,7 +29,8 @@
     "react-native-web": "~0.18.10"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "gh-pages": "^5.0.0"
   },
   "private": true
 }

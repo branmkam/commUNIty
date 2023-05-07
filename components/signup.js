@@ -37,7 +37,8 @@ const createAccount = async () => {
          updateProfile(auth.currentUser, {displayName : userName})
          //init user data
          set(ref(db, 'users/' + auth.currentUser.uid), {
-          faves: ''
+          faves: '',
+          username: userName,
         })
         .then(() => {
           console.log('added')

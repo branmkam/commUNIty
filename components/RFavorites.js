@@ -31,7 +31,7 @@ export default function RFavorites(props) {
     });
   
     //define on global scale - pass down as a prop
-    return auth.currentUser ? ( profile ? 
+    return auth.currentUser ? ( profile != null ? 
       <View style={styles.container}>
           <Button onPress={() => {
             setProfile(null);
