@@ -35,6 +35,18 @@ const createAccount = async () => {
          //put user state var update here
          console.log(userCredential)
          updateProfile(auth.currentUser, {displayName : userName})
+         //init user data
+         update(ref(db, 'users/' + auth.currentUser.uid), {
+          faves: '',
+          username: userName,
+        })
+        .then(() => {
+          console.log('added')
+        })
+        .catch((error) => {
+          console.log('error: ' + error)
+        });
+         nav.navigate('Deals')
       }).catch((e) => {
         console.log(e.message);
         console.log('There was a problem creating your account');
@@ -104,6 +116,8 @@ const styles = StyleSheet.create({
   inputView: {
     backgroundColor: "#FFFFF",
     borderColor: "#4B9CD3",
+    borderStyle: "solid",
+    borderWidth: 2,
     borderRadius: 30,
     width: "70%",
     height: 45,

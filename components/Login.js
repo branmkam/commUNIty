@@ -14,7 +14,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login(props) {
 
- const { auth, nav } = props;
+ const { nav, auth } = props;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,7 +37,9 @@ export default function Login(props) {
 
   return (
     <View style={styles.container}>
-      {/* <Image style={styles.image} source={require("./assets/log2.png")} />  */}
+       <View>
+       <Image style={styles.img} source={require("../images/logo.png")} /> 
+       </View>
       <StatusBar style="auto" />
       <View style={styles.inputView}>
         <TextInput
@@ -59,6 +61,11 @@ export default function Login(props) {
       <TouchableOpacity>
         <Text style={styles.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress = {() => {
+        nav.navigate('Deals')
+      }}>
+        <Text style={styles.guest_user_button}>Guest User</Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={signInAccount} style={styles.loginBtn}>
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
@@ -72,7 +79,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  image: {
+  img: {
+    height: 200,
+    width: 200,
     marginBottom: 40,
   },
   inputView: {
@@ -91,6 +100,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     marginLeft: 20,
+  },
+  guest_user_button: {
+    color: "#4B9CD3",
+    height: 30,
+    marginBottom: 20,
   },
   forgot_button: {
     height: 30,
