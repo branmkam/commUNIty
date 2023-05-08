@@ -32,8 +32,6 @@ const createAccount = async () => {
       console.log(userEmail, userPassword, userName)
       await createUserWithEmailAndPassword(auth, userEmail, userPassword)
       .then((userCredential) => {
-         //put user state var update here
-         console.log(userCredential)
          updateProfile(auth.currentUser, {displayName : userName})
          //init user data
          update(ref(db, 'users/' + auth.currentUser.uid), {

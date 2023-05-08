@@ -61,10 +61,11 @@ export default function Login(props) {
       <TouchableOpacity>
         <Text style={styles.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress = {() => {
+      <TouchableOpacity>
+        <Text style={styles.guest_user_button} onPress = {() => {
+        if(auth.currentUser) {auth.signOut()} 
         nav.navigate('Deals')
-      }}>
-        <Text style={styles.guest_user_button}>Guest User</Text>
+      }}>Guest User</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={signInAccount} style={styles.loginBtn}>
         <Text style={styles.loginText}>LOGIN</Text>

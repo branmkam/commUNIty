@@ -174,7 +174,7 @@ export default function RProfile(props) {
                 <Pressable
                   onPress={() => {
                   // update review of restaurant
-                  if(body && title && rating){
+                  if(body && title && rating) {
                     console.log(rating)
                     let randint = Math.floor(Math.random() * 100000);
                     //check if existing reviews
