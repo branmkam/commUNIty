@@ -14,7 +14,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login(props) {
 
- const { nav, auth } = props;
+ const { auth } = props;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +23,7 @@ export default function Login(props) {
     await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
        console.log(userCredential)
-       nav.navigate('Deals')
+       navigation.navigate('Deals')
     }).catch((e) => {
       console.log(e.message);
       console.log('There was a problem signing in');
@@ -64,7 +64,7 @@ export default function Login(props) {
       <TouchableOpacity>
         <Text style={styles.guest_user_button} onPress = {() => {
         if(auth.currentUser) {auth.signOut()} 
-        nav.navigate('Deals')
+        navigation.navigate('Deals')
       }}>Guest User</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={signInAccount} style={styles.loginBtn}>
