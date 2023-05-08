@@ -15,7 +15,7 @@ export default function EventsCard(props) {
     return(
         
         <View style={styles.card}>
-            <Image source={require("../images/mawEvent.png")}/>
+            <Image source={require(event.image)}/>
             <Text>{event.text}</Text>
             <Text>{' ' + start + '-' + end}</Text>
         </View>
