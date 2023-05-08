@@ -11,7 +11,7 @@ export default function REvents(props) {
     let { auth } = props;
     const [dbState, setDbState] = useState({})
     const [events, setEvents] = useState([])
-    let today = new Date(2022, 1, 1); // new Date();
+    let today = new Date();
 
     //get all events
     const dbRef = ref(getDatabase());

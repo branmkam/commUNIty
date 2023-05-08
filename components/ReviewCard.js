@@ -3,7 +3,6 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { styles } from '../styles';
 import { useState } from 'react';
-import { parseISOString } from '../App';
 import { getDatabase, ref, child, get, set } from "firebase/database";
 
 export default function ReviewCard(props) {
