@@ -15,7 +15,7 @@ export default function RDeals(props) {
     const [deals, setDeals] = useState([])
 
     let { auth } = props;
-    let today = new Date(2023, 2, 10); // new Date();
+    let today = new Date();
     //get all deals
     const dbRef = ref(getDatabase());
     get(child(dbRef, '/')).then((snapshot) => {
