@@ -3,10 +3,9 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { useState, setError } from 'react';
 //import { styles } from '../styles';
-
 //import firebase
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, get, child } from "firebase/database";
+import { getDatabase, ref, update, get, set, child } from "firebase/database";
 import { firebaseConfig } from '../firebase/config'
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
@@ -20,7 +19,7 @@ const { auth, nav } = props;
 const [userEmail, setUserEmail] = useState('Enter Your Email');
 const [userName, setUserName] = useState('Enter Your Username');
 const [userPassword, setUserPassword] = useState('Enter Your Password');
-const [confirmUserPassword, setConfirmUserPassword] = useState('Enter Your Password');
+const [confirmUserPassword, setConfirmUserPassword] = useState('Confirm Your Password');
 
 
 auth.onAuthStateChanged(() => { 
@@ -34,9 +33,9 @@ const createAccount = async () => {
       .then((userCredential) => {
          updateProfile(auth.currentUser, {displayName : userName})
          //init user data
-         update(ref(db, 'users/' + auth.currentUser.uid), {
-          faves: '',
-          username: userName,
+         set(child(dbRef, 'users/' + auth.currentUser.uid), {
+            faves: '',
+            username: userName,
         })
         .then(() => {
           console.log('added')

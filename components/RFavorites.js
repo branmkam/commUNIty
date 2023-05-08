@@ -15,20 +15,19 @@ export default function RFavorites(props) {
     const dbRef = ref(getDatabase());
 
     const { auth } = props
-    //call db
-    get(child(dbRef, '/')).then((snapshot) => {
-        if (snapshot.exists()) {
-          setDbState(snapshot.val());
-          if(dbState.users[auth.currentUser.uid]) {
-            let rests = dbState.users[auth.currentUser.uid].faves.split(',').map(x => parseInt(x))
-            setFaves(rests.map(x => dbState.restaurants[x]))
+    if(auth.currentUser) {
+      //call db
+      get(child(dbRef, '/')).then((snapshot) => {
+          if (snapshot.exists()) {
+            setDbState(snapshot.val());
+            if(dbState.users[auth.currentUser.uid]) {
+              let rests = dbState.users[auth.currentUser.uid].faves.split(',').map(x => parseInt(x)).filter(x => !Number.isNaN(x))
+              setFaves(rests.map(x => dbState.restaurants[x]))
+            }
           }
-          else {
-            setFaves([])
-          }
-        }
-    });
-  
+      });
+    }
+
     //define on global scale - pass down as a prop
     return auth.currentUser ? ( profile != null ? 
       <View style={styles.container}>
@@ -37,9 +36,14 @@ export default function RFavorites(props) {
           }
         } 
         title="Back" />
-        <RProfile info={profile} auth={auth}/>
+        <RProfile info={profile} nav={navigation} auth={auth}/>
       </View>
       :
+      (faves.length == 0 ? 
+        <View style={styles.container}>
+          <Text>No favorites for user {auth.currentUser.displayName}</Text>
+        </View>
+        : 
       <View style={styles.container}>
         <FlatList style={{flex: 1}}
           data={faves}
@@ -66,6 +70,6 @@ export default function RFavorites(props) {
           </Pressable>
           }
         />
-      </View>
+      </View>)
     ) : <Text>Sign in to see your favorites!</Text>;
   }

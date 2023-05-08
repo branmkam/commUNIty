@@ -51,7 +51,7 @@ export default function RProfile(props) {
 
 
     //database logic for toggling favorite
-    const { info, auth } = props;
+    const { info, navigation, auth } = props;
     
     const db = getDatabase();
     const dbRef = ref(getDatabase());
@@ -126,8 +126,8 @@ export default function RProfile(props) {
           }
           keyExtractor={item => item.id}
         />
-        <Button title="Add Review" onPress={() => {
-          setModalVisible(true)
+        <Button title={auth.currentUser ? "Add Review" : "Sign in to add review"} onPress={() => {
+          auth.currentUser ? setModalVisible(true) : navigation.navigate('Login')
         }}/>
 
         {/* MODAL FOR WRITING REVIEW*/}
@@ -230,6 +230,11 @@ export default function RProfile(props) {
                 }
               }>
                   <Text>Submit Review</Text>
+                </Pressable>
+                <Pressable onPress={() => {
+                  setModalVisible(!modalVisible)
+                }}>
+                  <Text>Back</Text>
                 </Pressable>
             </View>
           </Modal>

@@ -8,6 +8,7 @@ import RProfile from './RProfile';
 import { ButtonGroup } from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Row from 'react-bootstrap/Row'
+import { get, child, set, ref, getDatabase } from 'firebase/database'
 
 
 export default function RSearch(props) {
@@ -32,10 +33,19 @@ export default function RSearch(props) {
   const[higherEnd, setHigehrEnd]=useState(false);
   const[expensive, setExpensive]=useState(false);
 
+  const [dbState, setDbState] = useState({});
+
+  const dbRef = ref(getDatabase());
+  // getdbstate
+  get(child(dbRef, '/')).then((snapshot) => {
+      if (snapshot.exists()) {
+        setDbState(snapshot.val());
+      }
+  });
 
   const cuisines = ['Italian', 'Chinese', 'French', 'Spanish', 'Mexican', 'Japanese', 'Thai', 'Korean', 'Mediterranean', 'American', 'Ethiopian', 'Other']
   const prices = ['$', '$$', '$$$', '$$$$']
-  const { auth, dbState } = props;
+  const { auth, navigation } = props;
   let selectedCuisines = [];
   let selectedPrices = [];
   const handleClickItalian = () => {
@@ -98,7 +108,7 @@ export default function RSearch(props) {
         }
         }
           title="Back" />
-        <RProfile info={profile} />
+        <RProfile info={profile} auth={auth} nav={navigation}/>
       </View>
       :
       //results

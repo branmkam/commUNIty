@@ -6,32 +6,40 @@ import { useState } from 'react';
 import DealsCard from './DealsCard';
 import { parseISOString } from '../App';
 import RProfile from './RProfile';
+import { get, child, set, ref, getDatabase } from 'firebase/database'
 
 export default function RDeals(props) {
 
     const [profile, setProfile] = useState(null)
+    const [dbState, setDbState] = useState({})
+    const [deals, setDeals] = useState([])
 
-    let { auth, dbState } = props;
+    let { auth } = props;
     let today = new Date(2023, 2, 10); // new Date();
     //get all deals
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, '/')).then((snapshot) => {
+      if (snapshot.exists()) {
+          setDbState(snapshot.val());
+          //add ids
+          let deals2 = dbState.restaurants;
+          for(const key of Object.keys(deals2).values())
+          {
+            if(deals2[key].deals != undefined)
+            {
+              for(const deal in deals2[key].deals)
+              {
+                  deals2[key].deals[deal]['id'] = key;
+              } 
+            }
+          }
 
-    //add ids
-    let deals2 = dbState.restaurants;
-    for(const key of Object.keys(deals2).values())
-    {
-      if(deals2[key].deals != undefined)
-      {
-        for(const deal in deals2[key].deals)
-        {
-            deals2[key].deals[deal]['id'] = key;
-        } 
+          let deals3 = Object.values(deals2).map(x => x.deals).flat().filter(x => x != undefined);
+
+          //sort by ascending time - return first few after current end date
+          setDeals(deals3.filter(x => parseISOString(x.end) >= today).sort((a, b) => parseISOString(a.start) - parseISOString(b.start)));
       }
-    }
-
-    let deals = Object.values(deals2).map(x => x.deals).flat().filter(x => x != undefined);
-
-    //sort by ascending time - return first few after current end date
-    deals = deals.filter(x => parseISOString(x.end) >= today).sort((a, b) => parseISOString(a.start) - parseISOString(b.start));
+    });
 
     return(
       (profile != null ? 
