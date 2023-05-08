@@ -38,10 +38,7 @@ export default function REvents(props) {
           setEvents(events3.filter(x => parseISOString(x.end) >= today).sort((a, b) => parseISOString(a.start) - parseISOString(b.start)));
       }
     });
-    
-    //sort by ascending time - return first few after current end date
-    events = events.filter(x => parseISOString(x.end) >= today).sort((a, b) => parseISOString(a.start) - parseISOString(b.start));
-
+  
     return(
         events.length == 0 ?  
         <View style={styles.container}>
