@@ -83,11 +83,7 @@ const styles = StyleSheet.create({
   img: {
     height: 200,
     width: 200,
-<<<<<<< Updated upstream
     marginBottom: 20,
-=======
-    marginBottom: 14,
->>>>>>> Stashed changes
   },
   inputView: {
     backgroundColor: "#FFFFF",
@@ -113,11 +109,7 @@ const styles = StyleSheet.create({
   },
   forgot_button: {
     height: 30,
-<<<<<<< Updated upstream
     marginBottom: 15,
-=======
-    marginBottom: 20,
->>>>>>> Stashed changes
   },
   loginBtn: {
     width: "80%",
