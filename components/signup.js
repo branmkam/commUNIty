@@ -96,6 +96,14 @@ const createAccount = async () => {
               onChangeText={(password) => setConfirmUserPassword(password)}
             /> 
           </View> 
+          <View>
+          <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></input>
+    <label class="form-check-label" for="flexCheckDefault">
+    Student
+  </label>
+</div>
+          </View>
           <TouchableOpacity style={styles.submitBtn} onPress={createAccount} disabled= {!userEmail || !userPassword || (userPassword != confirmUserPassword) }>
              <Text style={styles.loginText}>Submit</Text> 
         </TouchableOpacity> 

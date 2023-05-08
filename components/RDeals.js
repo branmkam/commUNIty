@@ -6,6 +6,7 @@ import { useState } from 'react';
 import DealsCard from './DealsCard';
 import { parseISOString } from '../App';
 import RProfile from './RProfile';
+import 'bootstrap/dist/css/bootstrap.css'
 
 export default function RDeals(props) {
 

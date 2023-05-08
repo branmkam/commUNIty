@@ -8,6 +8,7 @@ import RProfile from './RProfile';
 import { ButtonGroup } from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Row from 'react-bootstrap/Row'
+import 'bootstrap/dist/css/bootstrap.css'
 
 
 export default function RSearch(props) {
@@ -158,7 +159,7 @@ export default function RSearch(props) {
       background-color: #F1F1F1;
       color: gray;
     }
-    .on {
+    .on{
       background-color: #71C2EC;
       color: white;
     }
