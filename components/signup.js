@@ -14,7 +14,7 @@ export default function Signup(props) {
 initializeApp(firebaseConfig)
 const dbRef = ref(getDatabase());
 
-const { auth, nav } = props;
+const { auth } = props;
 
 const [userEmail, setUserEmail] = useState('Enter Your Email');
 const [userName, setUserName] = useState('Enter Your Username');
@@ -43,7 +43,7 @@ const createAccount = async () => {
         .catch((error) => {
           console.log('error: ' + error)
         });
-         nav.navigate('Deals')
+         navigation.navigate('Deals')
       }).catch((e) => {
         console.log(e.message);
         console.log('There was a problem creating your account');
