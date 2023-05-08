@@ -35,6 +35,7 @@ const createAccount = async () => {
          //init user data
          set(child(dbRef, 'users/' + auth.currentUser.uid), {
             faves: '',
+            efaves: '',
             username: userName,
         })
         .then(() => {

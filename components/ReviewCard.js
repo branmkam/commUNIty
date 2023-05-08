@@ -28,4 +28,4 @@ export default function ReviewCard(props) {
             <Text>{review.body}</Text>
         </View>
     );
-}
+  }
