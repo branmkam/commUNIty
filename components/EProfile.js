@@ -80,7 +80,7 @@ export default function RProfile(props) {
               toggleFaveRest()
             }
             }>
-            {auth.currentUser ?  <Text>{favorited ? 'Unfavorite' : 'Favorite'}</Text> : ''}
+            {auth.currentUser ? <Text>{favorited ? 'Unfavorite' : 'Favorite'}</Text> : ''}
             </Pressable>
             {/* <Image source={require('../images/favestar.png')} style={{height: 50}}/> fix later*/}
             <Image source={{uri: info.photos.profile}} style={{borderRadius: 10, width: 130, height: 130}} />
