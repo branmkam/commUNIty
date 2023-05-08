@@ -7,6 +7,8 @@ import DealsCard from './DealsCard';
 import { parseISOString } from '../App';
 import RProfile from './RProfile';
 import { get, child, set, ref, getDatabase } from 'firebase/database'
+import Toggle from './Toggle';
+
 
 export default function RDeals(props) {
 
@@ -14,7 +16,8 @@ export default function RDeals(props) {
     const [dbState, setDbState] = useState({})
     const [deals, setDeals] = useState([])
 
-    let { auth } = props;
+    const { auth, r, setR } = props;
+  
     let today = new Date();
     //get all deals
     const dbRef = ref(getDatabase());
@@ -42,6 +45,7 @@ export default function RDeals(props) {
     });
 
     return(
+
       (profile != null ? 
       <View>
            <Button onPress={() => {
@@ -54,9 +58,12 @@ export default function RDeals(props) {
         :
         deals.length == 0 ?  
         <View style={styles.container}>
-            <Text>No deals - come back later!</Text>
+          <Toggle r={r} setR={setR}/>
+           <Text>No deals - come back later!</Text>
+
         </View>
         : <View style={styles.container}>
+            <Toggle r={r} setR={setR}/>
              <FlatList style={{flex: 1}}
           data={deals.slice(0, 9)}
           renderItem={({item}) => 

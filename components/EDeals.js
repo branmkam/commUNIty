@@ -1,15 +1,20 @@
+import { TextInput, Text, Image, View, TouchableOpacity, FlatList, Button, Pressable } from 'react-native';
+import 'react-native-gesture-handler';
+import * as React from 'react';
+import { styles } from '../styles';
+import { useState } from 'react';
 import DealsCard from './DealsCard';
 import { parseISOString } from '../App';
-import EProfile from './EProfile';
+import RProfile from './RProfile';
 import { get, child, set, ref, getDatabase } from 'firebase/database'
-
+import Toggle from './Toggle';
 export default function EDeals(props) {
 
     const [profile, setProfile] = useState(null)
     const [dbState, setDbState] = useState({})
     const [deals, setDeals] = useState([])
 
-    let { auth } = props;
+    const { auth, r, setR } = props;
     let today = new Date();
     //get all deals
     const dbRef = ref(getDatabase());
@@ -49,9 +54,11 @@ export default function EDeals(props) {
         :
         deals.length == 0 ?  
         <View style={styles.container}>
+            <Toggle r={r} setR={setR}/>
             <Text>No deals - come back later!</Text>
         </View>
         : <View style={styles.container}>
+            <Toggle r={r} setR={setR}/>
              <FlatList style={{flex: 1}}
           data={deals.slice(0, 9)}
           renderItem={({item}) => 

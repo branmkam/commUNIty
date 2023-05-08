@@ -6,9 +6,10 @@ import { useState } from 'react';
 import EventsCard from './EventsCard';
 import { parseISOString } from '../App';
 import { get, child, set, ref, getDatabase } from 'firebase/database'
+import Toggle from './Toggle';
 
 export default function REvents(props) {
-    let { auth } = props;
+    let { auth, r, setR } = props;
     const [dbState, setDbState] = useState({})
     const [events, setEvents] = useState([])
     let today = new Date();
@@ -42,9 +43,11 @@ export default function REvents(props) {
     return(
         events.length == 0 ?  
         <View style={styles.container}>
+             <Toggle r={r} setR={setR}/>
             <Text>No events - come back later!</Text>
         </View>
         : <View style={styles.container}>
+             <Toggle r={r} setR={setR}/>
              <FlatList style={{flex: 1}}
           data={events.slice(0, 9)}
           renderItem={({item}) => 

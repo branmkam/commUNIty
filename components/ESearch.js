@@ -45,7 +45,7 @@ export default function RSearch(props) {
 
   const cuisines = ['Italian', 'Chinese', 'French', 'Spanish', 'Mexican', 'Japanese', 'Thai', 'Korean', 'Mediterranean', 'American', 'Ethiopian', 'Other']
   const prices = ['$', '$$', '$$$', '$$$$']
-  const { auth, r, setR } = props;
+  const { auth, r, setR} = props;
   let selectedCuisines = [];
   let selectedPrices = [];
   const handleClickItalian = () => {
@@ -148,9 +148,9 @@ export default function RSearch(props) {
     
     //search     
       <View style={styles.container}>
-        <Toggle r={r} setR={setR}/>
+         <Toggle r={r} setR={setR}/>
         <TextInput
-          placeholder = "Search" style={styles.input}
+          placeholder = "Search entertainment..." style={styles.input}
         />
         <div>
         <Text style={{fontSize: 25}}>Cuisine</Text>{'  '}

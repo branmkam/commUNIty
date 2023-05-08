@@ -5,6 +5,7 @@ import { styles } from '../styles';
 import { useState } from 'react';
 import RProfile from './RProfile';
 import { get, child, set, ref, getDatabase } from 'firebase/database'
+import Toggle from './Toggle';
 
 export default function EFavorites(props) {
 
@@ -14,7 +15,7 @@ export default function EFavorites(props) {
 
     const dbRef = ref(getDatabase());
 
-    const { auth } = props
+    const { auth, r, setR } = props
     if(auth.currentUser) {
       //call db
       get(child(dbRef, '/')).then((snapshot) => {
@@ -41,10 +42,12 @@ export default function EFavorites(props) {
       :
       (faves.length == 0 ? 
         <View style={styles.container}>
+            <Toggle r={r} setR={setR}/>
           <Text>No favorites for user {auth.currentUser.displayName}</Text>
         </View>
         : 
       <View style={styles.container}>
+         <Toggle r={r} setR={setR}/>
         <FlatList style={{flex: 1}}
           data={faves}
           renderItem={({item}) => 

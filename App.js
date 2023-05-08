@@ -22,7 +22,10 @@ import Login from './components/Login';
 import Signup from './components/signup';
 import RDeals from './components/RDeals';
 import REvents from './components/REvents';
-
+import EFavorites from './components/EFavorites';
+import EDeals from './components/EDeals';
+import EEvents from './components/EEvents';
+import ESearch from './components/ESearch';
 
 //Initialize firebase and constants
 initializeApp(firebaseConfig)
@@ -39,6 +42,7 @@ export default function App() {
   //Initialize state
   const [dbState, setDbState] = useState({})
   const [loading, setLoading] = useState(true)
+  const [r, setR] = useState(true);
 
   useEffect(() => {
     const obtainDb = async () => {
@@ -54,7 +58,6 @@ export default function App() {
         console.error(error);
       }).finally(() => {
           setLoading(false);
-          console.log(loading);
       });
     }
     obtainDb();
@@ -64,10 +67,10 @@ export default function App() {
   return(
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Deals">
-        <Drawer.Screen name="Favorites" component={() => <RFavorites auth={auth}  />} />
-        <Drawer.Screen name="Search" component={() => <RSearch auth={auth} />} />
-        <Drawer.Screen name="Deals" component={() => <RDeals auth={auth}  />} />
-        <Drawer.Screen name="Events" component={() => <REvents auth={auth} />} />
+        <Drawer.Screen name="Favorites" component={() => r ? <RFavorites auth={auth} r={r} setR={setR}/> : <EFavorites auth={auth} r={r} setR={setR}/>  } />
+        <Drawer.Screen name="Search" component={() => r ? <RSearch auth={auth} r={r} setR={setR}/> : <ESearch auth={auth} r={r} setR={setR}/>  } />
+        <Drawer.Screen name="Deals" component={() => r ? <RDeals auth={auth} r={r} setR={setR}/> : <EDeals auth={auth} r={r} setR={setR}/>  } />
+        <Drawer.Screen name="Events" component={() => r ? <REvents auth={auth} r={r} setR={setR}/> : <EEvents auth={auth} r={r} setR={setR}/>  } />
         <Drawer.Screen name="Login" component={() => <Login auth={auth} />}/>
         <Drawer.Screen name="Signup" component={() => <Signup auth={auth} />}/>
       </Drawer.Navigator>
