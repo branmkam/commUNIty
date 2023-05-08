@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   img: {
     height: 200,
     width: 200,
-    marginBottom: 40,
+    marginBottom: 20,
   },
   inputView: {
     backgroundColor: "#FFFFF",
@@ -105,11 +105,11 @@ const styles = StyleSheet.create({
   guest_user_button: {
     color: "#4B9CD3",
     height: 30,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   forgot_button: {
     height: 30,
-    marginBottom: 30,
+    marginBottom: 15,
   },
   loginBtn: {
     width: "80%",
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
+    marginTop: 15,
     backgroundColor: "#4B9CD3",
 
   },
