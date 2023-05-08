@@ -15,12 +15,14 @@ export default function RFavorites(props) {
     const dbRef = ref(getDatabase());
 
     const { auth } = props
-
+    console.log(auth.currentUser.uid)
+    console.log(dbState.users)
+    console.log(dbState.users[auth.currentUser.uid])
     //call db
     get(child(dbRef, '/')).then((snapshot) => {
         if (snapshot.exists()) {
           setDbState(snapshot.val());
-          if(dbState.users[auth.currentUser.uid].faves) {
+          if(dbState.users[auth.currentUser.uid]) {
             let rests = dbState.users[auth.currentUser.uid].faves.split(',').map(x => parseInt(x))
             setFaves(rests.map(x => dbState.restaurants[x]))
           }
@@ -66,7 +68,6 @@ export default function RFavorites(props) {
             </View>
           </Pressable>
           }
-          keyExtractor={item => item.id}
         />
       </View>
     ) : <Text>Sign in to see your favorites!</Text>;

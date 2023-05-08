@@ -22,9 +22,8 @@ export default function ReviewCard(props) {
       });
 
     return(
-        
         <View style={styles.card}>
-            <Text>{review.username}</Text>
+            <Text>{username}</Text>
             <Text>{review.title}</Text>
             <Text>{review.rating}</Text>
             <Text>{review.body}</Text>

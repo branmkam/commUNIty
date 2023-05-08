@@ -4,8 +4,9 @@ import * as React from 'react';
 import { styles } from '../styles';
 import DealsCard from './DealsCard';
 import EventsCard from './EventsCard';
+import ReviewCard from './ReviewCard';
 import { useState } from 'react';
-import { getDatabase, ref, child, get, set } from "firebase/database";
+import { getDatabase, ref, child, get, set, update } from "firebase/database";
 import { parseISOString } from '../App';
 
 //also include review module in here at some point
@@ -25,14 +26,14 @@ export default function RProfile(props) {
           arr.push(toggle)
         }
       }
-      return arr.join(',')
+      return arr.filter(x => !Number.isNaN(x)).join(',')
     }
       
     //toggle with database calls
     function toggleFaveRest() {
       get(child(dbRef, 'users/')).then((snapshot) => {
         if (snapshot.exists()) {
-          set(ref(db, 'users/' + auth.currentUser.uid), {
+          update(ref(db, 'users/' + auth.currentUser.uid), {
             faves: toggleFave(snapshot.val()[auth.currentUser.uid].faves, info.id)
           })
           .then(() => {
@@ -52,6 +53,7 @@ export default function RProfile(props) {
     //database logic for toggling favorite
     const { info, auth } = props;
 
+    console.log(info)
     const db = getDatabase();
     const dbRef = ref(getDatabase());
 
@@ -116,6 +118,15 @@ export default function RProfile(props) {
           }
           keyExtractor={item => item.id}
         />
+
+        <Text>Reviews</Text>
+        <FlatList style={{flex: 1}}
+          data={info.reviews ? Object.values(info.reviews)  : []}
+          renderItem={({item}) => 
+            <ReviewCard review = {item} />
+          }
+          keyExtractor={item => item.id}
+        />
         <Button title="Add Review" onPress={() => {
           setModalVisible(true)
         }}/>
@@ -141,7 +152,17 @@ export default function RProfile(props) {
               <TextInput
                 placeholder = "Rating"
                 onChangeText={(txt) => {
-                  setRating(parseFloat(txt))
+                  let v = parseFloat(txt)
+                  if(v < 0) {
+                    setRating(0)
+                  }
+                  else if(v > 10) {
+                    setRating(10)
+                  }
+                  else
+                  {
+                    setRating(Math.floor(v))
+                  }
                 }}
               />
               <TextInput
@@ -155,37 +176,50 @@ export default function RProfile(props) {
                   onPress={() => {
                   // update review of restaurant
                   if(body && title && rating){
-                    if(rating < 0) {
-                      setRating(0)
-                    }
-                    else if(rating > 10) {
-                      setRating(10)
-                    }
-                    get(child(dbRef, 'restaurants/')).then((snapshot) => {
+                    console.log(rating)
+                    let randint = Math.floor(Math.random() * 100000);
+                    //check if existing reviews
+                    let json = {}
+                    get(child(dbRef, 'restaurants/' + info.id + '/reviews')).then((snapshot) => {
                       if (snapshot.exists()) {
                         //get open review number
-                        let randint = Math.floor(Math.random() * 100000);
-                        while(Object.keys(json).includes(randint)) { //ensure random review by restaurant
-                          randint = Math.floor(Math.random() * 100000);
+                        {
+                          while(Object.keys(snapshot.val()).includes(randint)) { //ensure random review by restaurant
+                            randint = Math.floor(Math.random() * 100000);
+                          }
                         }
-                        //upload review
-                        set(ref(db, 'restaurants/' + info.id + '/reviews'), {
-                          [randint]: {
-                            flag: false,
-                            rating: rating,
-                            restaurant_id: info.id,
-                            user_id: auth.currentUser.uid,
-                            body: body,
-                            title: title,
-                          } 
-                        })
-                        .then(() => {
-                          setFavorited(!favorited)
-                        })
-                        .catch((error) => {
-                          console.log('error: ' + error)
-                        });
+                        json = snapshot.val();
+                        json[randint] = {
+                          flag: false,
+                          rating: rating,
+                          restaurant_id: info.id,
+                          user_id: auth.currentUser.uid,
+                          body: body,
+                          title: title,
+                        } 
                       }
+                      else {
+                        json[randint] = {
+                          flag: false,
+                          rating: rating,
+                          restaurant_id: info.id,
+                          user_id: auth.currentUser.uid,
+                          body: body,
+                          title: title,
+                        } 
+                      }
+                      console.log(json[randint])
+                      //upload review
+                      update(ref(db, 'restaurants/' + info.id), {
+                        reviews: json,
+                      })
+                      .then(() => {
+                        setFavorited(!favorited)
+                        console.log('uploaded')
+                      })
+                      .catch((error) => {
+                        console.log('error: ' + error)
+                      });
                     })
                     .catch((error) => {
                       console.error(error);

@@ -36,7 +36,7 @@ const createAccount = async () => {
          console.log(userCredential)
          updateProfile(auth.currentUser, {displayName : userName})
          //init user data
-         set(ref(db, 'users/' + auth.currentUser.uid), {
+         update(ref(db, 'users/' + auth.currentUser.uid), {
           faves: '',
           username: userName,
         })

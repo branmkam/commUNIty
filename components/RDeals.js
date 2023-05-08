@@ -16,8 +16,8 @@ export default function RDeals(props) {
     //get all deals
 
     //add ids
-    let deals2 = dbState.restaurants
-    for(const key in deals2)
+    let deals2 = dbState.restaurants;
+    for(const key of Object.keys(deals2).values())
     {
       if(deals2[key].deals != undefined)
       {
@@ -28,14 +28,22 @@ export default function RDeals(props) {
       }
     }
 
-    let deals = deals2.map(x => x.deals).flat().filter(x => x != undefined);
-
+    let deals = Object.values(deals2).map(x => x.deals).flat().filter(x => x != undefined);
 
     //sort by ascending time - return first few after current end date
     deals = deals.filter(x => parseISOString(x.end) >= today).sort((a, b) => parseISOString(a.start) - parseISOString(b.start));
 
     return(
-      (profile != null ? <RProfile info={profile} auth={auth}/>:
+      (profile != null ? 
+      <View>
+           <Button onPress={() => {
+          setProfile(null);
+          }
+        }
+          title="Back" />
+        <RProfile info={profile} auth={auth}/>
+        </View>
+        :
         deals.length == 0 ?  
         <View style={styles.container}>
             <Text>No deals - come back later!</Text>
@@ -44,7 +52,10 @@ export default function RDeals(props) {
              <FlatList style={{flex: 1}}
           data={deals.slice(0, 9)}
           renderItem={({item}) => 
-          <Pressable onPress={setProfile(dbState.restaurants[item.id])}>
+          <Pressable onPress={() => {
+            console.log(dbState.restaurants[item.id])
+            setProfile(dbState.restaurants[item.id]);
+          }}>
             <DealsCard deal={item}/>
           </Pressable>
           }
