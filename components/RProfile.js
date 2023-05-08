@@ -52,8 +52,7 @@ export default function RProfile(props) {
 
     //database logic for toggling favorite
     const { info, auth } = props;
-
-    console.log(info)
+    
     const db = getDatabase();
     const dbRef = ref(getDatabase());
 
@@ -161,7 +160,7 @@ export default function RProfile(props) {
                   }
                   else
                   {
-                    setRating(Math.floor(v))
+                    setRating(Math.floor(v*2)/2)
                   }
                 }}
               />

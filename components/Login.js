@@ -14,7 +14,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login(props) {
 
- const { auth, nav } = props;
+ const { nav, auth } = props;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,7 +61,9 @@ export default function Login(props) {
       <TouchableOpacity>
         <Text style={styles.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress = {() => {
+        nav.navigate('Deals')
+      }}>
         <Text style={styles.guest_user_button}>Guest User</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={signInAccount} style={styles.loginBtn}>

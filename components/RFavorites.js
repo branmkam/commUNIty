@@ -15,9 +15,6 @@ export default function RFavorites(props) {
     const dbRef = ref(getDatabase());
 
     const { auth } = props
-    console.log(auth.currentUser.uid)
-    console.log(dbState.users)
-    console.log(dbState.users[auth.currentUser.uid])
     //call db
     get(child(dbRef, '/')).then((snapshot) => {
         if (snapshot.exists()) {

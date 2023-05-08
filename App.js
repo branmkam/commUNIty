@@ -62,12 +62,12 @@ export default function App() {
     loading ? <View style={styles.container}><Text>Loading...</Text></View> :
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Deals">
-        <Drawer.Screen name="Favorites" component={() => <RFavorites auth={auth} dbState={dbState} setDbState={setDbState} />} />
-        <Drawer.Screen name="Search" component={() => <RSearch auth={auth} dbState={dbState} setDbState={setDbState}/>} />
-        <Drawer.Screen name="Deals" component={() => <RDeals auth={auth} dbState={dbState} setDbState={setDbState} />} />
-        <Drawer.Screen name="Events" component={() => <REvents auth={auth} dbState={dbState} setDbState={setDbState}/>} />
-        <Drawer.Screen name="Login" component={() => <Login auth={auth} dbState={dbState} setDbState={setDbState}/>}/>
-        <Drawer.Screen name="Signup" component={() => <Signup auth={auth} dbState={dbState} setDbState={setDbState}/>}/>
+        <Drawer.Screen name="Favorites" component={() => <RFavorites nav = {Drawer} auth={auth} dbState={dbState} setDbState={setDbState} />} />
+        <Drawer.Screen name="Search" component={() => <RSearch nav = {Drawer} auth={auth} dbState={dbState} setDbState={setDbState}/>} />
+        <Drawer.Screen name="Deals" component={() => <RDeals nav = {Drawer} auth={auth} dbState={dbState} setDbState={setDbState} />} />
+        <Drawer.Screen name="Events" component={() => <REvents nav = {Drawer} auth={auth} dbState={dbState} setDbState={setDbState}/>} />
+        <Drawer.Screen name="Login" component={() => <Login nav = {Drawer} auth={auth} dbState={dbState} setDbState={setDbState}/>}/>
+        <Drawer.Screen name="Signup" component={() => <Signup nav = {Drawer} auth={auth} dbState={dbState} setDbState={setDbState}/>}/>
       </Drawer.Navigator>
     </NavigationContainer> 
     )
