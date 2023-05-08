@@ -213,7 +213,6 @@ export default function RProfile(props) {
                         reviews: json,
                       })
                       .then(() => {
-                        setFavorited(!favorited)
                         console.log('uploaded')
                       })
                       .catch((error) => {
