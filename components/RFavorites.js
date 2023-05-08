@@ -5,6 +5,7 @@ import { styles } from '../styles';
 import { useState } from 'react';
 import RProfile from './RProfile';
 import { get, child, set, ref, getDatabase } from 'firebase/database'
+import Toggle from './Toggle';
 
 export default function RFavorites(props) {
 
@@ -14,7 +15,7 @@ export default function RFavorites(props) {
 
     const dbRef = ref(getDatabase());
 
-    const { auth } = props
+    const { auth, r, setR } = props
     if(auth.currentUser) {
       //call db
       get(child(dbRef, '/')).then((snapshot) => {
@@ -54,10 +55,12 @@ export default function RFavorites(props) {
           }
            style={styles.card}>
             <View style={styles.imgs}>
+              <Toggle r={r} setR={setR}/>
                 <Image source={{uri: item.photos.profile}}
                 style={{borderRadius: 10, width: 130, height: 130}} />
             </View>
             <View style={styles.info}>
+              <Toggle r={r} setR={setR}/>
                <Image source={require('../images/favestar.png')}
                 style={styles.faveStar} />
               <Text style={styles.businessTitle}>{item.name.length > 20 ? item.name.substring(0,20) + '...' : item.name}</Text>
