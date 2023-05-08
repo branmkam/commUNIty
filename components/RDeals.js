@@ -35,7 +35,6 @@ export default function RDeals(props) {
           }
 
           let deals3 = Object.values(deals2).map(x => x.deals).flat().filter(x => x != undefined);
-          console.log(deals3)
 
           //sort by ascending time - return first few after current end date
           setDeals(deals3.filter(x => parseISOString(x.end) >= today).sort((a, b) => parseISOString(a.start) - parseISOString(b.start)));
