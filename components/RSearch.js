@@ -1,4 +1,4 @@
-import { TextInput, Text, Image, View, FlatList, Pressable } from 'react-native';
+import { TextInput, Text, Image, View, FlatList, Pressable, Button as B } from 'react-native';
 import 'react-native-gesture-handler';
 import * as React from 'react';
 import { styles } from '../styles';
@@ -250,13 +250,8 @@ export default function RSearch(props) {
           
           
         </View>
-        <View>
-        <br></br>
-          <Text style={{fontSize: 25}}>Location</Text>
-          
-        </View>
-
-        <Button onPress={() => {
+        
+        <B onPress={() => {
           //filter logic for search
           if (selectedCuisines.length > 0) {
             if (selectedPrices.length > 0) {
