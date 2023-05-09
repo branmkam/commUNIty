@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { parseISOString } from '../App';
 
 export default function EventsCard(props) {
-    const { event } = props;
+    const { info, event } = props;
     const startd = parseISOString(event.start);
     const endd = parseISOString(event.end);
     const start = startd.toLocaleString([], {month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'});
@@ -15,7 +15,7 @@ export default function EventsCard(props) {
     return(
     <View style={styles.container}>
         <View style={styles.card}>
-            <Image source={require("../images/goodfellowsEvent.png")}/>
+            <Image style={styles.img} source={require("../images/goodfellowsEvent.png")}/>
             <Text>{event.text}</Text>
             <Text>{' ' + start + '-' + end}</Text>
         </View>

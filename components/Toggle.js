@@ -8,7 +8,6 @@ export default function Toggle(props) {
     <Switch
         trackColor={{false: '#866ca1', true: '#7BAFD4'}}
         thumbColor={r ? '#866ca1' : '#7BAFD4'}
-        textRightStyle = "R"
         ios_backgroundColor="#3e3e3e"
         onValueChange={toggleSwitch}
         value={r}
