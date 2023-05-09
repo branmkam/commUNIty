@@ -160,7 +160,7 @@ export default function RSearch(props) {
        <div className='mt-1'>
        {theatersColor ? <Button type = "button"  className= "on" onClick = {handleClickTheaters}>Theaters</Button> : <Button type = "button"  className="off" onClick = {handleClickTheaters} >Theaters</Button>}
        {cinemaColor? <Button type = "button"  className= "on" onClick = {handleClickCinema}>Cinema</Button> : <Button type = "button"  className="off" onClick = {handleClickCinema} >Cinema</Button>}
-       {other ? <Button type = "button"  className= "on" onClick = {handleClickOther}>Other</Button> : <Button type = "button"  className="off" onClick = {handleClickOther} >Other</Button>}
+       {otherColor ? <Button type = "button"  className= "on" onClick = {handleClickOther}>Other</Button> : <Button type = "button"  className="off" onClick = {handleClickOther} >Other</Button>}
        </div>
 
     {/* <FlatList style={{ flex: 1 }}
