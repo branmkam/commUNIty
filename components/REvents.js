@@ -19,7 +19,6 @@ export default function REvents(props) {
     get(child(dbRef, '/')).then((snapshot) => {
       if (snapshot.exists()) {
           setDbState(snapshot.val());
-          console.log(dbState)
           //add ids
           let events2 = dbState.restaurants;
           for(const key of Object.keys(events2).values())
