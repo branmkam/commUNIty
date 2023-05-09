@@ -195,6 +195,7 @@ export default function RProfile(props) {
                 }
               /> */}
               <br></br>
+              <Form.Label>Body</Form.Label>
                <FloatingLabel controlId="floatingTextarea">
               <Col sm={7}>
         <Form.Control
