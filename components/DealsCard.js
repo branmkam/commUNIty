@@ -16,6 +16,7 @@ export default function DealsCard(props) {
     <View style={styles.container}>
         <View style={styles.card}>
             <Image style={styles.img} source={require("../images/quechulaDeal.png")}/>
+            <Image style={styles.img} source={require("../images/mawDeal.png")}/>
             <Text>{deal.text}</Text>
             <Text>{' ' + start + '-' + end}</Text>
         </View>

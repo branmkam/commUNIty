@@ -88,7 +88,7 @@ export default function RProfile(props) {
             {auth.currentUser ?  <Text>{favorited ? 'Unfavorite' : 'Favorite'}</Text> : ''}
             </Pressable>
             {/* <Image source={require('../images/favestar.png')} style={{height: 50}}/> fix later*/}
-            <Image source={{uri: info.photos.profile}} style={{borderRadius: 10, width: 130, height: 130}} />
+            <Image source={{uri: info.photos.profile}} style={{borderRadius: 10, width: 200, height: 200}} />
             <Text>{info.reviews ? Math.round(Object.values(info.reviews).map(r => r.rating).reduce((acc, cv) => acc + cv, 0)*10  / Object.values(info.reviews).length)/10 : 'NA'}/10 ({info.reviews ? Object.values(info.reviews).length : '0'})</Text>
             <Text>{info.hours}</Text>
             {/* deals */}
@@ -278,3 +278,4 @@ export default function RProfile(props) {
       </View>
     )
 }
+

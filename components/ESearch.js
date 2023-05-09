@@ -11,7 +11,7 @@ import Row from 'react-bootstrap/Row'
 import { get, child, set, ref, getDatabase } from 'firebase/database'
 import Toggle from './Toggle';
 
-export default function RSearch(props) {
+export default function ESearch(props) {
 
   const [query, setQuery] = useState(false);
   const [profile, setProfile] = useState(null);
@@ -129,7 +129,7 @@ export default function RSearch(props) {
           placeholder = "Search entertainment..." style={styles.input}
         />
         <div>
-        <Text style={{fontSize: 25}}>Cuisine</Text>{'  '}
+        <Text style={{fontSize: 25}}>Venue Type</Text>{'  '}
         {/* cuisines */ }
         <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="#" >
   Clear All
