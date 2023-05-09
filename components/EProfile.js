@@ -51,7 +51,7 @@ export default function EProfile(props) {
 
 
     //database logic for toggling favorite
-    const { info, navigation, auth } = props;
+    const { info, auth } = props;
     
     const db = getDatabase();
     const dbRef = ref(getDatabase());

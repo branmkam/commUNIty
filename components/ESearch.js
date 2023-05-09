@@ -4,7 +4,7 @@ import * as React from 'react';
 import { styles } from '../styles';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import RProfile from './RProfile';
+import EProfile from './EProfile';
 import { ButtonGroup } from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Row from 'react-bootstrap/Row'
@@ -16,61 +16,85 @@ export default function ESearch(props) {
   const [query, setQuery] = useState(false);
   const [profile, setProfile] = useState(null);
   const [selectedRs, setSelectedRs] = useState([]);
-  const [clubsColor, setCColor]=useState(false);
-  const [barsColor, setBColor]=useState(false);
-  const [liveMusColor, setLMColor]=useState(false);
-  const [theatersColor, setTColor]=useState(false);
-  const [cinemaColor, setCinColor]=useState(false);
-  const [otherColor, setOColor]=useState(false);
-  const[cheap, setCheap]=useState(false);
-  const[lowerEnd, setLowerEnd]=useState(false);
-  const[higherEnd, setHigehrEnd]=useState(false);
-  const[expensive, setExpensive]=useState(false);
+  const [clubsColor, setCColor] = useState(false);
+  const [barsColor, setBColor] = useState(false);
+  const [liveMusColor, setLMColor] = useState(false);
+  const [theatersColor, setTColor] = useState(false);
+  const [cinemaColor, setCinColor] = useState(false);
+  const [otherColor, setOColor] = useState(false);
+  const [cheap, setCheap] = useState(false);
+  const [lowerEnd, setLowerEnd] = useState(false);
+  const [higherEnd, setHigherEnd] = useState(false);
+  const [expensive, setExpensive] = useState(false);
 
   const [dbState, setDbState] = useState({});
+  const [selectedTypes, setST] = useState([])
+  const [selectedPrices, setSP] = useState([])
 
   const dbRef = ref(getDatabase());
   // getdbstate
   get(child(dbRef, '/')).then((snapshot) => {
-      if (snapshot.exists()) {
-        setDbState(snapshot.val());
-      }
+    if (snapshot.exists()) {
+      setDbState(snapshot.val());
+    }
   });
+
+  function addRemove(s, a) {
+    let arr = [...a]
+    console.log(arr.indexOf(s))
+    console.log(arr)
+    let ind = arr.indexOf(s)
+    if (ind >= 0) {
+      arr = arr.splice(ind, 1)
+    }
+    else {
+      arr = [...arr, s]
+    }
+    return arr;
+  }
 
   const Venues = ['Clubs', 'Bars', 'Live Music', 'Theaters', 'Cinema', 'Other']
   const prices = ['$', '$$', '$$$', '$$$$']
-  const { auth, r, setR} = props;
-  let selectedVenue = [];
-  let selectedPrices = [];
+  const { auth, r, setR } = props;
   const handleClickClubs = () => {
     setCColor(!clubsColor);
+    setST(addRemove('Clubs', selectedTypes));
   };
   const handleClickBars = () => {
     setBColor(!barsColor);
+    setST(addRemove('Bar', selectedTypes));
   };
   const handleClickLiveMusic = () => {
     setLMColor(!liveMusColor);
+    setST(addRemove('Live Music', selectedTypes));
   };
   const handleClickTheaters = () => {
     setTColor(!theatersColor);
+    setST(addRemove('Theaters', selectedTypes));
   };
   const handleClickCinema = () => {
     setCinColor(!cinemaColor);
+    setST(addRemove('Cinema', selectedTypes));
   };
   const handleClickOther = () => {
     setOColor(!otherColor);
+    setST(addRemove('Other', selectedTypes));
   };
   const handleClickCheap = () => {
     setCheap(!cheap);
+    setSP(addRemove('$', selectedPrices));
   };
   const handleClickLowerEnd = () => {
     setLowerEnd(!lowerEnd);
+    setSP(addRemove('$$', selectedPrices));
   };
   const handleClickHigherEnd = () => {
-    setHigehrEnd(!higherEnd);
+    setHigherEnd(!higherEnd);
+    setSP(addRemove('$$$', selectedPrices));
   };
   const handleClickExpensive = () => {
     setExpensive(!expensive);
+    setSP(addRemove('$$$$', selectedPrices));
   };
 
 
@@ -84,7 +108,7 @@ export default function ESearch(props) {
         }
         }
           title="Back" />
-        <RProfile info={profile} auth={auth} nav={navigation}/>
+        <EProfile info={profile} auth={auth} />
       </View>
       :
       //results
@@ -114,32 +138,32 @@ export default function ESearch(props) {
                 <Text>{item.cuisine}</Text>
                 <Text>{item.price}</Text>
                 <Text style={styles.businessRating}>
-                {item.reviews ? Math.round(Object.values(item.reviews).map(r => r.rating).reduce((acc, cv) => acc + cv, 0) * 10 / Object.values(item.reviews).length) / 10 : 'NA'}/10 ({item.reviews ? Object.values(item.reviews).length : '0'})</Text>
+                  {item.reviews ? Math.round(Object.values(item.reviews).map(r => r.rating).reduce((acc, cv) => acc + cv, 0) * 10 / Object.values(item.reviews).length) / 10 : 'NA'}/10 ({item.reviews ? Object.values(item.reviews).length : '0'})</Text>
               </View>
             </Pressable>
           }
           keyExtractor={item => item.id}
         />
       </View>) :
-    
-    //search     
-      <View style={styles.container}>
-         <Toggle r={r} setR={setR}/>
-        <TextInput
-          placeholder = "Search entertainment..." style={styles.input}
-        />
-        <div>
-        <Text style={{fontSize: 25}}>Venue Type</Text>{'  '}
-        {/* cuisines */ }
-        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="#" >
-  Clear All
-</a>
 
-</div>
-    <View>
-      <div className='mt-1'>
-      <style type="text/css">
-        {`
+    //search     
+    <View style={styles.container}>
+      <Toggle r={r} setR={setR} />
+      <TextInput
+        placeholder="Search entertainment..." style={styles.input}
+      />
+      <div>
+        <Text style={{ fontSize: 25 }}>Venue Type</Text>{'  '}
+        {/* cuisines */}
+        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="#" >
+          Clear All
+        </a>
+
+      </div>
+      <View>
+        <div className='mt-1'>
+          <style type="text/css">
+            {`
     .off{
       background-color: #F1F1F1;
       color: gray;
@@ -149,21 +173,21 @@ export default function ESearch(props) {
       color: white;
     }
     `}
-      </style>
+          </style>
 
-        {/* <Button type = "button" onClick{...handleClick} className="on" variant={color ? "active":"rest"} >Italian</Button>{'  '} */}
-        {clubsColor ? <Button type = "button" className= "on" onClick = {handleClickClubs}>Clubs</Button> : <Button type = "button"  className="off" onClick = {handleClickClubs} >Clubs</Button>}
-        {barsColor ? <Button type = "button"  className= "on" onClick = {handleClickBars}>Bars</Button> : <Button type = "button"  className="off" onClick = {handleClickBars} >Bars</Button>}
-        {liveMusColor ? <Button type = "button"  className= "on" onClick = {handleClickLiveMusic}>Live Music</Button> : <Button type = "button"  className="off" onClick = {handleClickLiveMusic} >Live Music</Button>}
-       </div>
+          {/* <Button type = "button" onClick{...handleClick} className="on" variant={color ? "active":"rest"} >Italian</Button>{'  '} */}
+          {clubsColor ? <Button type="button" className="on" onClick={handleClickClubs}>Clubs</Button> : <Button type="button" className="off" onClick={handleClickClubs} >Clubs</Button>}
+          {barsColor ? <Button type="button" className="on" onClick={handleClickBars}>Bars</Button> : <Button type="button" className="off" onClick={handleClickBars} >Bars</Button>}
+          {liveMusColor ? <Button type="button" className="on" onClick={handleClickLiveMusic}>Live Music</Button> : <Button type="button" className="off" onClick={handleClickLiveMusic} >Live Music</Button>}
+        </div>
 
-       <div className='mt-1'>
-       {theatersColor ? <Button type = "button"  className= "on" onClick = {handleClickTheaters}>Theaters</Button> : <Button type = "button"  className="off" onClick = {handleClickTheaters} >Theaters</Button>}
-       {cinemaColor? <Button type = "button"  className= "on" onClick = {handleClickCinema}>Cinema</Button> : <Button type = "button"  className="off" onClick = {handleClickCinema} >Cinema</Button>}
-       {otherColor ? <Button type = "button"  className= "on" onClick = {handleClickOther}>Other</Button> : <Button type = "button"  className="off" onClick = {handleClickOther} >Other</Button>}
-       </div>
+        <div className='mt-1'>
+          {theatersColor ? <Button type="button" className="on" onClick={handleClickTheaters}>Theaters</Button> : <Button type="button" className="off" onClick={handleClickTheaters} >Theaters</Button>}
+          {cinemaColor ? <Button type="button" className="on" onClick={handleClickCinema}>Cinema</Button> : <Button type="button" className="off" onClick={handleClickCinema} >Cinema</Button>}
+          {otherColor ? <Button type="button" className="on" onClick={handleClickOther}>Other</Button> : <Button type="button" className="off" onClick={handleClickOther} >Other</Button>}
+        </div>
 
-    {/* <FlatList style={{ flex: 1 }}
+        {/* <FlatList style={{ flex: 1 }}
       data={cuisines}
       renderItem={({ item }) =>
         <Button type="button" class="btn btn-info" style={styles.unselectedButton} onPress={() => {
@@ -177,25 +201,25 @@ export default function ESearch(props) {
         }} title={item} />
       }
     /> */}
-    <br></br>
-    <Text style={{fontSize: 25, textAlign:"center"}}>Price Range</Text>
-    <br></br>
+        <br></br>
+        <Text style={{ fontSize: 25, textAlign: "center" }}>Price Range</Text>
+        <br></br>
 
-    
-  </View>
-  
-   {/* prices */ }
-        <View >
+
+      </View>
+
+      {/* prices */}
+      <View >
         <div className='mt-1'>
-      <style type="text/css">
-       
-      </style>
-      {cheap ? <Button type = "button" className= "on" onClick = {handleClickCheap}>$</Button> : <Button type = "button"  className="off" onClick = {handleClickCheap} >$</Button>}
-      {lowerEnd ? <Button type = "button"  className= "on" onClick = {handleClickLowerEnd}>$$</Button> : <Button type = "button"  className="off" onClick = {handleClickLowerEnd} >$$</Button>}
-      {higherEnd ? <Button type = "button"  className= "on" onClick = {handleClickHigherEnd}>$$$</Button> : <Button type = "button"  className="off" onClick = {handleClickHigherEnd} >$$$</Button>}
-      {expensive ? <Button type = "button"  className= "on" onClick = {handleClickExpensive}>$$$$</Button> : <Button type = "button"  className="off" onClick = {handleClickExpensive} >$$$$</Button>}
-      </div>
-          {/* <FlatList style={{flex: 1}}
+          <style type="text/css">
+
+          </style>
+          {cheap ? <Button type="button" className="on" onClick={handleClickCheap}>$</Button> : <Button type="button" className="off" onClick={handleClickCheap} >$</Button>}
+          {lowerEnd ? <Button type="button" className="on" onClick={handleClickLowerEnd}>$$</Button> : <Button type="button" className="off" onClick={handleClickLowerEnd} >$$</Button>}
+          {higherEnd ? <Button type="button" className="on" onClick={handleClickHigherEnd}>$$$</Button> : <Button type="button" className="off" onClick={handleClickHigherEnd} >$$$</Button>}
+          {expensive ? <Button type="button" className="on" onClick={handleClickExpensive}>$$$$</Button> : <Button type="button" className="off" onClick={handleClickExpensive} >$$$$</Button>}
+        </div>
+        {/* <FlatList style={{flex: 1}}
             data={prices}
             renderItem={({item}) => 
             <Button style={styles.unselectedButton} onPress={() => {
@@ -208,33 +232,33 @@ export default function ESearch(props) {
               console.log(selectedPrices);
             }} title={item}/>
           } */}
-          
-          
-        </View>
 
-        <B onPress={() => {
-          //filter logic for search
-          if (selectedVenue.length > 0) {
-            if (selectedPrices.length > 0) {
-              setSelectedRs(Object.values(dbState.entertainment)
-              .filter(r => selectedPrices.includes(r.price) && selectedCuisines.includes(r.venue_type)));
-            }
-            else {
-              setSelectedRs(Object.values(dbState.entertainment)
-              .filter(r => selectedCuisines.includes(r.venue_type)));
-            }
+
+      </View>
+
+      <B onPress={() => {
+        //filter logic for search
+        if (selectedTypes.length > 0) {
+          if (selectedPrices.length > 0) {
+            setSelectedRs(Object.values(dbState.entertainment)
+              .filter(r => selectedPrices.includes(r.price) && selectedTypes.includes(r.venue_type)));
           }
           else {
-            if (selectedPrices.length > 0) {
-              setSelectedRs(Object.values(dbState.entertainment)
-              .filter(r => selectedPrices.includes(r.price)));
-            }
-            else {
-              setSelectedRs(Object.values(dbState.entertainment));
-            }
+            setSelectedRs(Object.values(dbState.entertainment)
+              .filter(r => selectedTypes.includes(r.venue_type)));
           }
-          setQuery(true);
-        }} title='Apply' color="#4455ee"/>
-      </View >
-    )
+        }
+        else {
+          if (selectedPrices.length > 0) {
+            setSelectedRs(Object.values(dbState.entertainment)
+              .filter(r => selectedPrices.includes(r.price)));
+          }
+          else {
+            setSelectedRs(Object.values(dbState.entertainment));
+          }
+        }
+        setQuery(true);
+      }} title='Apply' color="#4455ee" />
+    </View >
+  )
 }

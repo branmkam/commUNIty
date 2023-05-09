@@ -21,7 +21,6 @@ export default function EEvents(props) {
           setDbState(snapshot.val());
           //add ids
           let events2 = dbState.entertainment;
-          console.log(events2)
           for(const key of Object.keys(events2).values())
           {
             if(events2[key].events != undefined)
