@@ -8,6 +8,10 @@ import ReviewCard from './ReviewCard';
 import { useState } from 'react';
 import { getDatabase, ref, child, get, set, update } from "firebase/database";
 import { parseISOString } from '../App';
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 //also include review module in here at some point
 export default function RProfile(props) {
@@ -61,6 +65,7 @@ export default function RProfile(props) {
     const [body, setBody] = useState(null)
     const [rating, setRating] = useState(null)
     const [favorited, setFavorited] = useState(false)
+    const [ value, setValue] = React.useState(1)
 
     //set State based on if favorited already
     let v = false;
@@ -141,14 +146,16 @@ export default function RProfile(props) {
             }}>
             <View>
               <Text>Review {info.name}</Text>
-              <TextInput
-                placeholder = "Title"
-                onChangeText={(txt) => {
-                  setTitle(txt);
-                }
-              }
-              />
-              <TextInput
+            
+              <Form>
+      <Form.Group className="mb-3" controlId="formTitle">
+        <Form.Label>Title</Form.Label>
+        <Col sm={7}>
+        <Form.Control type="title" placeholder="Title" width="75%" />
+</Col>
+      </Form.Group>
+      
+              {/* <TextInput
                 placeholder = "Rating"
                 onChangeText={(txt) => {
                   let v = parseFloat(txt)
@@ -163,14 +170,40 @@ export default function RProfile(props) {
                     setRating(Math.floor(v*2)/2)
                   }
                 }}
-              />
-              <TextInput
+              /> */}
+               <Form.Group as={Row}>
+        <Col xs="9">
+        <Form.Label>Rating</Form.Label>
+        <br></br>
+          <Form.Range
+            value={value}
+            onChange={e => setValue(e.target.value)}
+            min={0}
+            max={10}
+          />
+        </Col>
+        <Col xs="3">
+          <Form.Control value={value}/>
+        </Col>
+      </Form.Group>
+      </Form>
+              {/* <TextInput
                 placeholder = "Body"
                 onChangeText={(txt) => {
                     setBody(txt);
                   }
                 }
-              />
+              /> */}
+              <br></br>
+               <FloatingLabel controlId="floatingTextarea">
+              <Col sm={7}>
+        <Form.Control
+          as="textarea"
+          placeholder="Leave a review here"
+          style={{ height: '100px' }}
+        />
+        </Col>
+      </FloatingLabel>
                 <Pressable
                   onPress={() => {
                   // update review of restaurant
@@ -230,6 +263,7 @@ export default function RProfile(props) {
                   }
                 }
               }>
+                <br></br>
                   <Text>Submit Review</Text>
                 </Pressable>
             </View>
