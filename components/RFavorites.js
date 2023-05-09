@@ -5,6 +5,7 @@ import { styles } from '../styles';
 import { useState } from 'react';
 import RProfile from './RProfile';
 import { get, child, set, ref, getDatabase } from 'firebase/database'
+import 'bootstrap/dist/css/bootstrap.css'
 import Toggle from './Toggle';
 
 export default function RFavorites(props) {
