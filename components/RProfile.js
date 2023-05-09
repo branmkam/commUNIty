@@ -23,6 +23,7 @@ export default function RProfile(props) {
         return [toggle].join(',')
       }
       else {
+        console.log(arr).split(',')
         arr = arr.split(',').map(x => parseInt(x))
         if(arr.includes(toggle)) {
           arr.splice(arr.indexOf(toggle), 1)

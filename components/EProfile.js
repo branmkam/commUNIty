@@ -19,6 +19,7 @@ export default function EProfile(props) {
       }
       else {
         arr = arr.split(',').map(x => parseInt(x))
+        console.log(arr, toggle, arr.includes(toggle))
         if(arr.includes(toggle)) {
           arr.splice(arr.indexOf(toggle), 1)
         }
@@ -34,7 +35,7 @@ export default function EProfile(props) {
       get(child(dbRef, 'users/')).then((snapshot) => {
         if (snapshot.exists()) {
           update(ref(db, 'users/' + auth.currentUser.uid), {
-            efaves: toggleFave(snapshot.val()[auth.currentUser.uid].efaves, info.id)
+            efaves: toggleFave(snapshot.val()[auth.currentUser.uid].efaves, parseInt(info.id))
           })
           .then(() => {
             setFavorited(!favorited)
@@ -66,7 +67,7 @@ export default function EProfile(props) {
     let v = false;
     get(child(dbRef, 'users/')).then((snapshot) => {
         if (snapshot.exists()) {
-          v = snapshot.val()[auth.currentUser.uid].efaves.split(',').map(x => parseInt(x)).includes(info.id)
+          v = snapshot.val()[auth.currentUser.uid].efaves.split(',').map(x => parseInt(x)).includes(parseInt(info.id))
           setFavorited(v);
         }
       });

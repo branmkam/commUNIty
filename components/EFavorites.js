@@ -3,7 +3,7 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { styles } from '../styles';
 import { useState } from 'react';
-import RProfile from './RProfile';
+import EProfile from './EProfile';
 import { get, child, set, ref, getDatabase } from 'firebase/database'
 import Toggle from './Toggle';
 
@@ -37,7 +37,7 @@ export default function EFavorites(props) {
           }
         } 
         title="Back" />
-        <RProfile info={profile} nav={navigation} auth={auth}/>
+        <EProfile info={profile} auth={auth}/>
       </View>
       :
       (faves.length == 0 ? 
