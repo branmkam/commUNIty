@@ -1,4 +1,4 @@
-import { TextInput, Text, Image, View, FlatList, Pressable } from 'react-native';
+import { TextInput, Text, Image, View, FlatList, Pressable, Button as B } from 'react-native';
 import 'react-native-gesture-handler';
 import * as React from 'react';
 import { styles } from '../styles';
@@ -79,7 +79,7 @@ export default function ESearch(props) {
     //profile page
     (profile ?
       <View style={styles.container}>
-        <Button onPress={() => {
+        <B onPress={() => {
           setProfile(null);
         }
         }
@@ -89,7 +89,7 @@ export default function ESearch(props) {
       :
       //results
       <View style={styles.container}>
-        <Button onPress={() => {
+        <B onPress={() => {
           setQuery(false);
         }
         }
@@ -114,7 +114,7 @@ export default function ESearch(props) {
                 <Text>{item.cuisine}</Text>
                 <Text>{item.price}</Text>
                 <Text style={styles.businessRating}>
-                  {Object.values(item.reviews).length > 0 ? Math.round(Object.values(item.reviews).map(r => r.rating).reduce((acc, cv) => acc + cv, 0) * 10 / Object.values(item.reviews).length) / 10 : 'NA'}/10 ({Object.values(item.reviews).length})</Text>
+                {item.reviews ? Math.round(Object.values(item.reviews).map(r => r.rating).reduce((acc, cv) => acc + cv, 0) * 10 / Object.values(item.reviews).length) / 10 : 'NA'}/10 ({item.reviews ? Object.values(item.reviews).length : '0'})</Text>
               </View>
             </Pressable>
           }
@@ -211,31 +211,26 @@ export default function ESearch(props) {
           
           
         </View>
-        <View>
-        <br></br>
-          <Text style={{fontSize: 25}}>Location</Text>
-          
-        </View>
 
-        <Button onPress={() => {
+        <B onPress={() => {
           //filter logic for search
           if (selectedVenue.length > 0) {
             if (selectedPrices.length > 0) {
-              setSelectedRs(Object.values(dbState.restaurants)
-              .filter(r => selectedPrices.includes(r.price) && selectedCuisines.includes(r.cuisine)));
+              setSelectedRs(Object.values(dbState.entertainment)
+              .filter(r => selectedPrices.includes(r.price) && selectedCuisines.includes(r.venue_type)));
             }
             else {
-              setSelectedRs(Object.values(dbState.restaurants)
-              .filter(r => selectedCuisines.includes(r.cuisine)));
+              setSelectedRs(Object.values(dbState.entertainment)
+              .filter(r => selectedCuisines.includes(r.venue_type)));
             }
           }
           else {
             if (selectedPrices.length > 0) {
-              setSelectedRs(Object.values(dbState.restaurants)
+              setSelectedRs(Object.values(dbState.entertainment)
               .filter(r => selectedPrices.includes(r.price)));
             }
             else {
-              setSelectedRs(Object.values(dbState.restaurants));
+              setSelectedRs(Object.values(dbState.entertainment));
             }
           }
           setQuery(true);

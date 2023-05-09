@@ -19,9 +19,9 @@ export default function EEvents(props) {
     get(child(dbRef, '/')).then((snapshot) => {
       if (snapshot.exists()) {
           setDbState(snapshot.val());
-          console.log(dbState)
           //add ids
           let events2 = dbState.entertainment;
+          console.log(events2)
           for(const key of Object.keys(events2).values())
           {
             if(events2[key].events != undefined)
