@@ -3,10 +3,9 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { useState, setError } from 'react';
 //import { styles } from '../styles';
-
 //import firebase
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, get, child } from "firebase/database";
+import { getDatabase, ref, update, get, set, child } from "firebase/database";
 import { firebaseConfig } from '../firebase/config'
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
@@ -15,12 +14,12 @@ export default function Signup(props) {
 initializeApp(firebaseConfig)
 const dbRef = ref(getDatabase());
 
-const { auth, nav } = props;
+const { auth } = props;
 
 const [userEmail, setUserEmail] = useState('Enter Your Email');
 const [userName, setUserName] = useState('Enter Your Username');
 const [userPassword, setUserPassword] = useState('Enter Your Password');
-const [confirmUserPassword, setConfirmUserPassword] = useState('Enter Your Password');
+const [confirmUserPassword, setConfirmUserPassword] = useState('Confirm Your Password');
 
 
 auth.onAuthStateChanged(() => { 
@@ -32,13 +31,12 @@ const createAccount = async () => {
       console.log(userEmail, userPassword, userName)
       await createUserWithEmailAndPassword(auth, userEmail, userPassword)
       .then((userCredential) => {
-         //put user state var update here
-         console.log(userCredential)
          updateProfile(auth.currentUser, {displayName : userName})
          //init user data
-         update(ref(db, 'users/' + auth.currentUser.uid), {
-          faves: '',
-          username: userName,
+         set(child(dbRef, 'users/' + auth.currentUser.uid), {
+            faves: '',
+            efaves: '',
+            username: userName,
         })
         .then(() => {
           console.log('added')
@@ -46,7 +44,7 @@ const createAccount = async () => {
         .catch((error) => {
           console.log('error: ' + error)
         });
-         nav.navigate('Deals')
+         navigation.navigate('Deals')
       }).catch((e) => {
         console.log(e.message);
         console.log('There was a problem creating your account');

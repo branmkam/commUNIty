@@ -6,19 +6,15 @@ import { useState } from 'react';
 import DealsCard from './DealsCard';
 import { parseISOString } from '../App';
 import RProfile from './RProfile';
-import 'bootstrap/dist/css/bootstrap.css'
 import { get, child, set, ref, getDatabase } from 'firebase/database'
 import Toggle from './Toggle';
-
-
-export default function RDeals(props) {
+export default function EDeals(props) {
 
     const [profile, setProfile] = useState(null)
     const [dbState, setDbState] = useState({})
     const [deals, setDeals] = useState([])
 
     const { auth, r, setR } = props;
-  
     let today = new Date();
     //get all deals
     const dbRef = ref(getDatabase());
@@ -26,7 +22,7 @@ export default function RDeals(props) {
       if (snapshot.exists()) {
           setDbState(snapshot.val());
           //add ids
-          let deals2 = dbState.restaurants;
+          let deals2 = dbState.entertainment;
           for(const key of Object.keys(deals2).values())
           {
             if(deals2[key].deals != undefined)
@@ -46,7 +42,6 @@ export default function RDeals(props) {
     });
 
     return(
-
       (profile != null ? 
       <View>
            <Button onPress={() => {
@@ -54,14 +49,13 @@ export default function RDeals(props) {
           }
         }
           title="Back" />
-        <RProfile info={profile} auth={auth}/>
+        <EProfile info={profile} auth={auth}/>
         </View>
         :
         deals.length == 0 ?  
         <View style={styles.container}>
-          <Toggle r={r} setR={setR}/>
-           <Text>No deals - come back later!</Text>
-
+            <Toggle r={r} setR={setR}/>
+            <Text>No deals - come back later!</Text>
         </View>
         : <View style={styles.container}>
             <Toggle r={r} setR={setR}/>
@@ -69,7 +63,8 @@ export default function RDeals(props) {
           data={deals.slice(0, 9)}
           renderItem={({item}) => 
           <Pressable onPress={() => {
-            setProfile(dbState.restaurants[item.id]);
+            console.log(dbState.entertainment[item.id])
+            setProfile(dbState.entertainment[item.id]);
           }}>
             <DealsCard deal={item}/>
           </Pressable>

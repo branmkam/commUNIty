@@ -8,8 +8,6 @@ import RProfile from './RProfile';
 import { ButtonGroup } from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Row from 'react-bootstrap/Row'
-import 'bootstrap/dist/css/bootstrap.css'
-
 import { get, child, set, ref, getDatabase } from 'firebase/database'
 import Toggle from './Toggle';
 
@@ -47,7 +45,7 @@ export default function RSearch(props) {
 
   const cuisines = ['Italian', 'Chinese', 'French', 'Spanish', 'Mexican', 'Japanese', 'Thai', 'Korean', 'Mediterranean', 'American', 'Ethiopian', 'Other']
   const prices = ['$', '$$', '$$$', '$$$$']
-  const { auth, r, setR } = props;
+  const { auth, r, setR} = props;
   let selectedCuisines = [];
   let selectedPrices = [];
   const handleClickItalian = () => {
@@ -150,9 +148,9 @@ export default function RSearch(props) {
     
     //search     
       <View style={styles.container}>
-        <Toggle r={r} setR={setR}/>
+         <Toggle r={r} setR={setR}/>
         <TextInput
-          placeholder = "Search" style={styles.input}
+          placeholder = "Search entertainment..." style={styles.input}
         />
         <div>
         <Text style={{fontSize: 25}}>Cuisine</Text>{'  '}
@@ -170,7 +168,7 @@ export default function RSearch(props) {
       background-color: #F1F1F1;
       color: gray;
     }
-    .on{
+    .on {
       background-color: #71C2EC;
       color: white;
     }

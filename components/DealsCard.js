@@ -12,10 +12,11 @@ export default function DealsCard(props) {
     const start = startd.toLocaleString([], {month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'});
     const end = endd.toLocaleString([], {hour: '2-digit', minute: '2-digit'});
 
+    console.log("../images/" + deal.image)
     return(
         
         <View style={styles.card}>
-            <Image source={{uri: deal.image}}/>
+            <Image source={require("../images/quechulaDeal.png")}/>
             <Text>{deal.text}</Text>
             <Text>{' ' + start + '-' + end}</Text>
         </View>

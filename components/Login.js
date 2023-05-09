@@ -14,7 +14,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login(props) {
 
- const { nav, auth } = props;
+ const { auth } = props;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +23,7 @@ export default function Login(props) {
     await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
        console.log(userCredential)
-       nav.navigate('Deals')
+       navigation.navigate('Deals')
     }).catch((e) => {
       console.log(e.message);
       console.log('There was a problem signing in');
@@ -61,10 +61,11 @@ export default function Login(props) {
       <TouchableOpacity>
         <Text style={styles.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress = {() => {
-        nav.navigate('Deals')
-      }}>
-        <Text style={styles.guest_user_button}>Guest User</Text>
+      <TouchableOpacity>
+        <Text style={styles.guest_user_button} onPress = {() => {
+        if(auth.currentUser) {auth.signOut()} 
+        navigation.navigate('Deals')
+      }}>Guest User</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={signInAccount} style={styles.loginBtn}>
         <Text style={styles.loginText}>LOGIN</Text>
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
   img: {
     height: 200,
     width: 200,
-    marginBottom: 40,
+    marginBottom: 20,
   },
   inputView: {
     backgroundColor: "#FFFFF",
@@ -104,11 +105,11 @@ const styles = StyleSheet.create({
   guest_user_button: {
     color: "#4B9CD3",
     height: 30,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   forgot_button: {
     height: 30,
-    marginBottom: 30,
+    marginBottom: 15,
   },
   loginBtn: {
     width: "80%",
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
+    marginTop: 15,
     backgroundColor: "#4B9CD3",
 
   },

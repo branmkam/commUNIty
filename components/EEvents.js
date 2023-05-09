@@ -8,7 +8,7 @@ import { parseISOString } from '../App';
 import { get, child, set, ref, getDatabase } from 'firebase/database'
 import Toggle from './Toggle';
 
-export default function REvents(props) {
+export default function EEvents(props) {
     let { auth, r, setR } = props;
     const [dbState, setDbState] = useState({})
     const [events, setEvents] = useState([])
@@ -21,7 +21,7 @@ export default function REvents(props) {
           setDbState(snapshot.val());
           console.log(dbState)
           //add ids
-          let events2 = dbState.restaurants;
+          let events2 = dbState.entertainment;
           for(const key of Object.keys(events2).values())
           {
             if(events2[key].events != undefined)
@@ -43,11 +43,11 @@ export default function REvents(props) {
     return(
         events.length == 0 ?  
         <View style={styles.container}>
-             <Toggle r={r} setR={setR}/>
+            <Toggle r={r} setR={setR}/>
             <Text>No events - come back later!</Text>
         </View>
         : <View style={styles.container}>
-             <Toggle r={r} setR={setR}/>
+              <Toggle r={r} setR={setR}/>
              <FlatList style={{flex: 1}}
           data={events.slice(0, 9)}
           renderItem={({item}) => 
