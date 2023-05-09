@@ -43,10 +43,12 @@ export default function RFavorites(props) {
       :
       (faves.length == 0 ? 
         <View style={styles.container}>
+          <Toggle r={r} setR={setR}/>
           <Text>No favorites for user {auth.currentUser.displayName}</Text>
         </View>
         : 
       <View style={styles.container}>
+          <Toggle r={r} setR={setR}/>
         <FlatList style={{flex: 1}}
           data={faves}
           renderItem={({item}) => 
@@ -56,12 +58,11 @@ export default function RFavorites(props) {
           }
            style={styles.card}>
             <View style={styles.imgs}>
-              <Toggle r={r} setR={setR}/>
                 <Image source={{uri: item.photos.profile}}
                 style={{borderRadius: 10, width: 130, height: 130}} />
             </View>
             <View style={styles.info}>
-              <Toggle r={r} setR={setR}/>
+
                <Image source={require('../images/favestar.png')}
                 style={styles.faveStar} />
               <Text style={styles.businessTitle}>{item.name.length > 20 ? item.name.substring(0,20) + '...' : item.name}</Text>
