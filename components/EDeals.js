@@ -23,8 +23,10 @@ export default function EDeals(props) {
           setDbState(snapshot.val());
           //add ids
           let deals2 = dbState.entertainment;
+          console.log(deals2)
           for(const key of Object.keys(deals2).values())
           {
+            console.log(deals2[key])
             if(deals2[key].deals != undefined)
             {
               for(const deal in deals2[key].deals)

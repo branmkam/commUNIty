@@ -63,9 +63,8 @@ export default function RProfile(props) {
     const [modalVisible, setModalVisible] = useState(false)
     const [title, setTitle] = useState(null)
     const [body, setBody] = useState(null)
-    const [rating, setRating] = useState(null)
     const [favorited, setFavorited] = useState(false)
-    const [ value, setValue] = React.useState(1)
+    const [value, setValue] = useState(1)
 
     //set State based on if favorited already
     let v = false;
@@ -151,7 +150,7 @@ export default function RProfile(props) {
       <Form.Group className="mb-3" controlId="formTitle">
         <Form.Label>Title</Form.Label>
         <Col sm={7}>
-        <Form.Control type="title" placeholder="Title" width="75%" />
+        <Form.Control onChange={e => setTitle(e.target.value)} type="title" placeholder="Title" width="75%" />
 </Col>
       </Form.Group>
       
@@ -177,7 +176,7 @@ export default function RProfile(props) {
         <br></br>
           <Form.Range
             value={value}
-            onChange={e => setValue(e.target.value)}
+            onChange={e => setValue(parseFloat(e.target.value))}
             min={0}
             max={10}
           />
@@ -202,14 +201,14 @@ export default function RProfile(props) {
           as="textarea"
           placeholder="Leave a review here"
           style={{ height: '100px' }}
+          onChange={e => setBody(e.target.value)}
         />
         </Col>
       </FloatingLabel>
                 <Pressable
                   onPress={() => {
                   // update review of restaurant
-                  if(body && title && rating) {
-                    console.log(rating)
+                  if(body && title && value) {
                     let randint = Math.floor(Math.random() * 100000);
                     //check if existing reviews
                     let json = {}
@@ -224,8 +223,7 @@ export default function RProfile(props) {
                         json = snapshot.val();
                         json[randint] = {
                           flag: false,
-                          rating: rating,
-                          restaurant_id: info.id,
+                          rating: value,
                           user_id: auth.currentUser.uid,
                           body: body,
                           title: title,
@@ -234,8 +232,7 @@ export default function RProfile(props) {
                       else {
                         json[randint] = {
                           flag: false,
-                          rating: rating,
-                          restaurant_id: info.id,
+                          rating: value,
                           user_id: auth.currentUser.uid,
                           body: body,
                           title: title,

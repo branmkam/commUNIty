@@ -216,21 +216,21 @@ export default function ESearch(props) {
           //filter logic for search
           if (selectedVenue.length > 0) {
             if (selectedPrices.length > 0) {
-              setSelectedRs(Object.values(dbState.restaurants)
-              .filter(r => selectedPrices.includes(r.price) && selectedCuisines.includes(r.cuisine)));
+              setSelectedRs(Object.values(dbState.entertainment)
+              .filter(r => selectedPrices.includes(r.price) && selectedCuisines.includes(r.venue_type)));
             }
             else {
-              setSelectedRs(Object.values(dbState.restaurants)
-              .filter(r => selectedCuisines.includes(r.cuisine)));
+              setSelectedRs(Object.values(dbState.entertainment)
+              .filter(r => selectedCuisines.includes(r.venue_type)));
             }
           }
           else {
             if (selectedPrices.length > 0) {
-              setSelectedRs(Object.values(dbState.restaurants)
+              setSelectedRs(Object.values(dbState.entertainment)
               .filter(r => selectedPrices.includes(r.price)));
             }
             else {
-              setSelectedRs(Object.values(dbState.restaurants));
+              setSelectedRs(Object.values(dbState.entertainment));
             }
           }
           setQuery(true);
