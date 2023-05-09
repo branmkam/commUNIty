@@ -37,6 +37,9 @@ export default function RSearch(props) {
 
   const [dbState, setDbState] = useState({});
 
+  const [selectedCuisines, setSC] = useState([]);
+  const [selectedPrices, setSP] = useState([]);
+
   const dbRef = ref(getDatabase());
   // getdbstate
   get(child(dbRef, '/')).then((snapshot) => {
@@ -45,58 +48,88 @@ export default function RSearch(props) {
       }
   });
 
+
+  function addRemove(s, a) {
+    let arr = [...a]
+    console.log(arr.indexOf(s))
+    console.log(arr)
+    let ind = arr.indexOf(s)
+    if(ind >= 0) { 
+      arr = arr.splice(ind, 1)
+    }
+    else {
+      arr = [...arr, s]
+    }
+    return arr;
+  }
+
   const cuisines = ['Italian', 'Chinese', 'French', 'Spanish', 'Mexican', 'Japanese', 'Thai', 'Korean', 'Mediterranean', 'American', 'Ethiopian', 'Other']
   const prices = ['$', '$$', '$$$', '$$$$']
   const { auth, r, setR } = props;
-  let selectedCuisines = [];
-  let selectedPrices = [];
+
   const handleClickItalian = () => {
     setIColor(!italianColor);
+    setSC(addRemove('Italian', selectedCuisines));
   };
   const handleClickChinese = () => {
     setCColor(!chineseColor);
+    setSC(addRemove('Chinese', selectedCuisines));
   };
   const handleClickFrench = () => {
     setFColor(!frenchColor);
+    setSC(addRemove('French', selectedCuisines));
   };
   const handleClickSpanish = () => {
     setSColor(!spanishColor);
+    setSC(addRemove('Spanish', selectedCuisines));
   };
   const handleClickMexican = () => {
     setMColor(!mexicanColor);
+    setSC(addRemove('Mexican', selectedCuisines));
   };
   const handleClickJapanese = () => {
     setJColor(!japaneseColor);
+    setSC(addRemove('Japanese', selectedCuisines));
   };
   const handleClickThai = () => {
     setTColor(!thaiColor);
+    setSC(addRemove('Thai', selectedCuisines));
   };
   const handleClickKorean = () => {
     setKColor(!koreanColor);
+    setSC(addRemove('Korean', selectedCuisines));
   };
   const handleClickMediterranean = () => {
     setMTColor(!mediterraneanColor);
+    setSC(addRemove('Mediterranean', selectedCuisines));
   };
   const handleClickAmerican = () => {
     setAColor(!americanColor);
+    setSC(addRemove('American', selectedCuisines));
   };
   const handleClickEthiopian = () => {
     setEColor(!ethiopianColor);
+    setSC(addRemove('Ethiopian', selectedCuisines));
   };
   const handleClickOther = () => {
     setOColor(!other);
+    setSC(addRemove('Other', selectedCuisines));
   };
   const handleClickCheap = () => {
     setCheap(!cheap);
+    setSP(addRemove('$', selectedPrices));
   };
   const handleClickLowerEnd = () => {
     setLowerEnd(!lowerEnd);
+    setSP(addRemove('$$', selectedPrices));
   };
   const handleClickHigherEnd = () => {
     setHigehrEnd(!higherEnd);
+    setSP(addRemove('$$$', selectedPrices));
   };
   const handleClickExpensive = () => {
     setExpensive(!expensive);
+    setSP(addRemove('$$$$', selectedPrices));
   };
 
 
@@ -105,17 +138,17 @@ export default function RSearch(props) {
     //profile page
     (profile ?
       <View style={styles.container}>
-        <Button onPress={() => {
+        <B onPress={() => {
           setProfile(null);
         }
         }
           title="Back" />
-        <RProfile info={profile} auth={auth} nav={navigation}/>
+        <RProfile info={profile} auth={auth} />
       </View>
       :
       //results
       <View style={styles.container}>
-        <Button onPress={() => {
+        <B onPress={() => {
           setQuery(false);
         }
         }
@@ -140,7 +173,7 @@ export default function RSearch(props) {
                 <Text>{item.cuisine}</Text>
                 <Text>{item.price}</Text>
                 <Text style={styles.businessRating}>
-                  {Object.values(item.reviews).length > 0 ? Math.round(Object.values(item.reviews).map(r => r.rating).reduce((acc, cv) => acc + cv, 0) * 10 / Object.values(item.reviews).length) / 10 : 'NA'}/10 ({Object.values(item.reviews).length})</Text>
+                  {item.reviews ? Math.round(Object.values(item.reviews).map(r => r.rating).reduce((acc, cv) => acc + cv, 0) * 10 / Object.values(item.reviews).length) / 10 : 'NA'}/10 ({item.reviews ? Object.values(item.reviews).length : '0'})</Text>
               </View>
             </Pressable>
           }
@@ -250,7 +283,7 @@ export default function RSearch(props) {
           
           
         </View>
-        
+
         <B onPress={() => {
           //filter logic for search
           if (selectedCuisines.length > 0) {
@@ -272,6 +305,7 @@ export default function RSearch(props) {
               setSelectedRs(Object.values(dbState.restaurants));
             }
           }
+          console.log(selectedRs)
           setQuery(true);
         }} title='Apply' color="#4455ee"/>
       </View >
