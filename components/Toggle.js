@@ -6,8 +6,9 @@ export default function Toggle(props) {
     const toggleSwitch = () => setR(previousState => !previousState);
     return(
     <Switch
-        trackColor={{false: '#767577', true: '#81b0ff'}}
-        thumbColor={r ? '#f5dd4b' : '#f4f3f4'}
+        trackColor={{false: '#866ca1', true: '#7BAFD4'}}
+        thumbColor={r ? '#866ca1' : '#7BAFD4'}
+        textRightStyle = "R"
         ios_backgroundColor="#3e3e3e"
         onValueChange={toggleSwitch}
         value={r}
