@@ -16,18 +16,12 @@ export default function RSearch(props) {
   const [query, setQuery] = useState(false);
   const [profile, setProfile] = useState(null);
   const [selectedRs, setSelectedRs] = useState([]);
-  const [italianColor, setIColor]=useState(false);
-  const [chineseColor, setCColor]=useState(false);
-  const [frenchColor, setFColor]=useState(false);
-  const [spanishColor, setSColor]=useState(false);
-  const [mexicanColor, setMColor]=useState(false);
-  const [japaneseColor, setJColor]=useState(false);
-  const [thaiColor, setTColor]=useState(false);
-  const [koreanColor, setKColor]=useState(false);
-  const [mediterraneanColor, setMTColor]=useState(false);
-  const [americanColor, setAColor]=useState(false);
-  const [ethiopianColor, setEColor]=useState(false);
-  const [other, setOColor]=useState(false);
+  const [clubsColor, setCColor]=useState(false);
+  const [barsColor, setBColor]=useState(false);
+  const [liveMusColor, setLMColor]=useState(false);
+  const [theatersColor, setTColor]=useState(false);
+  const [cinemaColor, setCinColor]=useState(false);
+  const [otherColor, setOColor]=useState(false);
   const[cheap, setCheap]=useState(false);
   const[lowerEnd, setLowerEnd]=useState(false);
   const[higherEnd, setHigehrEnd]=useState(false);
@@ -43,46 +37,28 @@ export default function RSearch(props) {
       }
   });
 
-  const cuisines = ['Italian', 'Chinese', 'French', 'Spanish', 'Mexican', 'Japanese', 'Thai', 'Korean', 'Mediterranean', 'American', 'Ethiopian', 'Other']
+  const Venues = ['Clubs', 'Bars', 'Live Music', 'Theaters', 'Cinema', 'Other']
   const prices = ['$', '$$', '$$$', '$$$$']
   const { auth, r, setR} = props;
-  let selectedCuisines = [];
+  let selectedVenue = [];
   let selectedPrices = [];
-  const handleClickItalian = () => {
-    setIColor(!italianColor);
+  const handleClickClubs = () => {
+    setCColor(!clubsColor);
   };
-  const handleClickChinese = () => {
-    setCColor(!chineseColor);
+  const handleClickBars = () => {
+    setBColor(!barsColor);
   };
-  const handleClickFrench = () => {
-    setFColor(!frenchColor);
+  const handleClickLiveMusic = () => {
+    setLMColor(!liveMusColor);
   };
-  const handleClickSpanish = () => {
-    setSColor(!spanishColor);
+  const handleClickTheaters = () => {
+    setTColor(!theatersColor);
   };
-  const handleClickMexican = () => {
-    setMColor(!mexicanColor);
-  };
-  const handleClickJapanese = () => {
-    setJColor(!japaneseColor);
-  };
-  const handleClickThai = () => {
-    setTColor(!thaiColor);
-  };
-  const handleClickKorean = () => {
-    setKColor(!koreanColor);
-  };
-  const handleClickMediterranean = () => {
-    setMTColor(!mediterraneanColor);
-  };
-  const handleClickAmerican = () => {
-    setAColor(!americanColor);
-  };
-  const handleClickEthiopian = () => {
-    setEColor(!ethiopianColor);
+  const handleClickCinema = () => {
+    setCinColor(!cinemaColor);
   };
   const handleClickOther = () => {
-    setOColor(!other);
+    setOColor(!otherColor);
   };
   const handleClickCheap = () => {
     setCheap(!cheap);
@@ -176,29 +152,16 @@ export default function RSearch(props) {
       </style>
 
         {/* <Button type = "button" onClick{...handleClick} className="on" variant={color ? "active":"rest"} >Italian</Button>{'  '} */}
-        {italianColor ? <Button type = "button" className= "on" onClick = {handleClickItalian}>Italian</Button> : <Button type = "button"  className="off" onClick = {handleClickItalian} >Italian</Button>}
-        {chineseColor ? <Button type = "button"  className= "on" onClick = {handleClickChinese}>Chinese</Button> : <Button type = "button"  className="off" onClick = {handleClickChinese} >Chinese</Button>}
-        {frenchColor ? <Button type = "button"  className= "on" onClick = {handleClickFrench}>French</Button> : <Button type = "button"  className="off" onClick = {handleClickFrench} >French</Button>}
+        {clubsColor ? <Button type = "button" className= "on" onClick = {handleClickClubs}>Clubs</Button> : <Button type = "button"  className="off" onClick = {handleClickClubs} >Clubs</Button>}
+        {barsColor ? <Button type = "button"  className= "on" onClick = {handleClickBars}>Bars</Button> : <Button type = "button"  className="off" onClick = {handleClickBars} >Bars</Button>}
+        {liveMusColor ? <Button type = "button"  className= "on" onClick = {handleClickLiveMusic}>Live Music</Button> : <Button type = "button"  className="off" onClick = {handleClickLiveMusic} >Live Music</Button>}
        </div>
 
        <div className='mt-1'>
-       {spanishColor ? <Button type = "button"  className= "on" onClick = {handleClickSpanish}>Spanish</Button> : <Button type = "button"  className="off" onClick = {handleClickSpanish} >Spanish</Button>}
-       {mexicanColor? <Button type = "button"  className= "on" onClick = {handleClickMexican}>Mexican</Button> : <Button type = "button"  className="off" onClick = {handleClickMexican} >Mexican</Button>}
-       {japaneseColor ? <Button type = "button"  className= "on" onClick = {handleClickJapanese}>Japanese</Button> : <Button type = "button"  className="off" onClick = {handleClickJapanese} >Japanese</Button>}
+       {theatersColor ? <Button type = "button"  className= "on" onClick = {handleClickTheaters}>Theaters</Button> : <Button type = "button"  className="off" onClick = {handleClickTheaters} >Theaters</Button>}
+       {cinemaColor? <Button type = "button"  className= "on" onClick = {handleClickCinema}>Cinema</Button> : <Button type = "button"  className="off" onClick = {handleClickCinema} >Cinema</Button>}
+       {otherColor ? <Button type = "button"  className= "on" onClick = {handleClickOther}>Other</Button> : <Button type = "button"  className="off" onClick = {handleClickOther} >Other</Button>}
        </div>
-     
-       <div className='mt-1'>
-       {thaiColor ? <Button type = "button"  className= "on" onClick = {handleClickThai}>Thai</Button> : <Button type = "button"  className="off" onClick = {handleClickThai} >Thai</Button>}
-       {koreanColor ? <Button type = "button"  className= "on" onClick = {handleClickKorean}>Korean</Button> : <Button type = "button"  className="off" onClick = {handleClickKorean} >Korean</Button>}
-       {mediterraneanColor ? <Button type = "button"  className= "on" onClick = {handleClickMediterranean}>Mediterranean</Button> : <Button type = "button"  className="off" onClick = {handleClickMediterranean} >Mediterranean</Button>}
-       </div>
-
-       <div className='mt-1'>
-       {americanColor ? <Button type = "button"  className= "on" onClick = {handleClickAmerican}>American</Button> : <Button type = "button"  className="off" onClick = {handleClickAmerican} >American</Button>}
-       {ethiopianColor ? <Button type = "button"  className= "on" onClick = {handleClickEthiopian}>Ethiopian</Button> : <Button type = "button"  className="off" onClick = {handleClickEthiopian} >Ethiopian</Button>}
-       {other ? <Button type = "button"  className= "on" onClick = {handleClickOther}>Other</Button> : <Button type = "button"  className="off" onClick = {handleClickOther} >Other</Button>}
-       </div> 
-       
 
     {/* <FlatList style={{ flex: 1 }}
       data={cuisines}
@@ -256,7 +219,7 @@ export default function RSearch(props) {
 
         <Button onPress={() => {
           //filter logic for search
-          if (selectedCuisines.length > 0) {
+          if (selectedVenue.length > 0) {
             if (selectedPrices.length > 0) {
               setSelectedRs(Object.values(dbState.restaurants)
               .filter(r => selectedPrices.includes(r.price) && selectedCuisines.includes(r.cuisine)));

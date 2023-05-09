@@ -63,7 +63,6 @@ export default function EDeals(props) {
           data={deals.slice(0, 9)}
           renderItem={({item}) => 
           <Pressable onPress={() => {
-            console.log(dbState.entertainment[item.id])
             setProfile(dbState.entertainment[item.id]);
           }}>
             <DealsCard deal={item}/>

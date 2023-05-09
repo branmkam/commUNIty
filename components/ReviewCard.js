@@ -4,6 +4,8 @@ import * as React from 'react';
 import { styles } from '../styles';
 import { useState } from 'react';
 import { getDatabase, ref, child, get, set } from "firebase/database";
+import 'bootstrap/dist/css/bootstrap.css'
+import Card from 'react-bootstrap/Card';
 
 export default function ReviewCard(props) {
 
@@ -21,11 +23,14 @@ export default function ReviewCard(props) {
       });
 
     return(
-        <View style={styles.card}>
-            <Text>{review.title ? review.title : 'Untitled'}</Text>
-            <Text>{username} says:</Text>
-            <Text>{review.rating}</Text>
-            <Text>{review.body}</Text>
-        </View>
+        <Card border="secondary" style={{ width: '18rem' }}>
+        <Card.Header>{username}</Card.Header>
+        <Card.Body>
+          <Card.Title>{review.title ? review.title : 'Untitled'}{' '}{review.rating}</Card.Title>
+          <Card.Text>
+            {review.body}
+          </Card.Text>
+        </Card.Body>
+      </Card>
     );
   }
