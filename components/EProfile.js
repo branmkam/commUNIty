@@ -10,7 +10,7 @@ import { getDatabase, ref, child, get, set, update } from "firebase/database";
 import { parseISOString } from '../App';
 
 //also include review module in here at some point
-export default function RProfile(props) {
+export default function EProfile(props) {
 
   //toggle favorite entertainment by id
     function toggleFave(arr, toggle) {   

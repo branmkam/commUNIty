@@ -12,6 +12,7 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import { alignPropType } from 'react-bootstrap/esm/types';
 
 //also include review module in here at some point
 export default function RProfile(props) {
@@ -79,7 +80,7 @@ export default function RProfile(props) {
 
     return( 
         <View style={styles.container}>
-            <Text>{info.name}</Text>
+            <Text style={{fontSize:24}}>{info.name}</Text>
             {/* Favorite logic*/}
             <Pressable onPress = {() => {
               toggleFaveRest()
@@ -92,7 +93,7 @@ export default function RProfile(props) {
             <Text>{info.reviews ? Math.round(Object.values(info.reviews).map(r => r.rating).reduce((acc, cv) => acc + cv, 0)*10  / Object.values(info.reviews).length)/10 : 'NA'}/10 ({info.reviews ? Object.values(info.reviews).length : '0'})</Text>
             <Text>{info.hours}</Text>
             {/* deals */}
-            <Text>Deals</Text>
+            <Text style={{fontSize:20, marginBottom:10}}>Deals</Text>
             <FlatList style={{flex: 1}}
           data={info.deals ?  info.deals.filter(x => parseISOString(x.end) >= new Date(2011, 3, 3)).sort((a, b) => parseISOString(a.start) - parseISOString(b.start)) : []}
           renderItem={({item}) => 
@@ -108,7 +109,7 @@ export default function RProfile(props) {
         />
 
          {/* events */}
-         <Text>Events</Text>
+         <Text style={{fontSize:20, marginBottom:10}} >Events</Text>
             <FlatList style={{flex: 1}}
           data={info.events ? info.events.filter(x => parseISOString(x.end) >= new Date(2011, 3, 3)).sort((a, b) => parseISOString(a.start) - parseISOString(b.start)) : []}
           renderItem={({item}) => 
